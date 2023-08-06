@@ -16,8 +16,20 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.WalletTrackerApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.AutomaticFishFeederApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.WalletTrackerApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.AutomaticFishFeederApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ColoredHandleTheme">
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
+
+    <!-- Bottom menu text size -->
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
+    </style>
 </resources>
