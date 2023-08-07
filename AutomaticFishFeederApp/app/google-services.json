@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "484329367002",
-    "firebase_url": "https://automaticfishfeeder-87091-default-rtdb.firebaseio.com",
-    "project_id": "automaticfishfeeder-87091",
-    "storage_bucket": "automaticfishfeeder-87091.appspot.com"
+    "project_number": "304331761682",
+    "project_id": "automaticfishfeeder-7941e",
+    "storage_bucket": "automaticfishfeeder-7941e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:484329367002:android:7dd71d64ca967b5abb0ce3",
+        "mobilesdk_app_id": "1:304331761682:android:688ac6f2f7f864c39550cb",
         "android_client_info": {
           "package_name": "com.company.automaticfishfeederapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "484329367002-98hujoh0k30t1pfv473bum7kmsst43tr.apps.googleusercontent.com",
+          "client_id": "304331761682-nk5evddjb4vn8126un3rgl8giqddiqa9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBeLTK6ZGOJcT_Cy7ZFQMZIhq2SDlJOXGI"
+          "current_key": "AIzaSyD_8uZvQAn-4U_19PDk3H0-syh0PE-dB9M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "484329367002-98hujoh0k30t1pfv473bum7kmsst43tr.apps.googleusercontent.com",
+              "client_id": "304331761682-nk5evddjb4vn8126un3rgl8giqddiqa9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
