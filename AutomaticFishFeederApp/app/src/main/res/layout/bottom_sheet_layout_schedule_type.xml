@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:background="@drawable/bottom_sheet_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/buttonSelectScheduleTypeCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_gravity="left"
+            android:textColor="@color/button_color"
+            android:text="Close" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Select Schedule Type"
+        android:letterSpacing="0"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:textSize="14dp"
+        android:gravity="center_horizontal" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/schedule_type_list"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

@@ -7,4 +7,9 @@
     <color name="purple">#7430BB</color>
     <color name="pink">#EE5EB4</color>
     <color name="red">#FF0000</color>
+    <color name="button_color">#2f3ced</color>
+    <color name="gray_color_text">#6F6F86</color>
+    <color name="label_color">#A9A9A9</color>
+    <color name="form_hint_color">#E7E7E7</color>
+    <color name="bottomSheetBottomLineColor">#1A000000</color>
 </resources>

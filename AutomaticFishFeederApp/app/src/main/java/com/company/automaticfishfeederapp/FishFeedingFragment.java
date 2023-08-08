@@ -1,12 +1,18 @@
 package com.company.automaticfishfeederapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +29,8 @@ public class FishFeedingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private Button btn_auto,btn_manual;
+    private FragmentActivity pageContext;
     public FishFeedingFragment() {
         // Required empty public constructor
     }
@@ -59,6 +66,64 @@ public class FishFeedingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fish_feeding, container, false);
+        View view= inflater.inflate(R.layout.fragment_fish_feeding, container, false);
+
+        btn_auto= (Button) view.findViewById(R.id.buttonFishFeedingAuto);
+        btn_manual= (Button)view.findViewById(R.id.buttonFishFeedingManual);
+
+        btn_auto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fragManager = pageContext.getSupportFragmentManager();
+                FragmentTransaction ft=fragManager.beginTransaction();
+                ft.replace(R.id.fishFeedingFragmentLayout,new FishFeedingAutoFragment());
+                ft.commit();
+                btn_auto.setTextColor(getResources().getColor(R.color.white));
+                btn_auto.setBackgroundColor(getResources().getColor(R.color.button_color));
+                btn_manual.setTextColor(getResources().getColor(R.color.gray_color_text));
+                btn_manual.setBackgroundColor(getResources().getColor(R.color.white));
+
+            }
+        });
+
+        btn_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fragManager = pageContext.getSupportFragmentManager();
+                FragmentTransaction ft=fragManager.beginTransaction();
+                ft.replace(R.id.fishFeedingFragmentLayout,new FishFeedingManualFragment());
+                ft.commit();
+                btn_manual.setTextColor(getResources().getColor(R.color.white));
+                btn_manual.setBackgroundColor(getResources().getColor(R.color.button_color));
+                btn_auto.setTextColor(getResources().getColor(R.color.gray_color_text));
+                btn_auto.setBackgroundColor(getResources().getColor(R.color.white));
+
+
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FragmentManager fragManager = pageContext.getSupportFragmentManager();
+        FragmentTransaction ft=fragManager.beginTransaction();
+        ft.replace(R.id.fishFeedingFragmentLayout,new FishFeedingAutoFragment());
+        ft.commit();
+        btn_auto.setTextColor(getResources().getColor(R.color.white));
+        btn_auto.setBackgroundColor(getResources().getColor(R.color.button_color));
+        btn_manual.setTextColor(getResources().getColor(R.color.gray_color_text));
+        btn_manual.setBackgroundColor(getResources().getColor(R.color.white));
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        pageContext=(FragmentActivity) context;
+        super.onAttach(context);
+
     }
 }

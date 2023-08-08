@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".AddSchedule">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="25dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/buttonAddScheduleBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/back_button"
+                app:backgroundTint="@color/white"
+                app:elevation="0dp"
+                app:fabCustomSize="40dp"
+                app:maxImageSize="40dp"
+                app:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Add Schedule"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Schedule Title"
+                    android:textAllCaps="true"
+                    android:textColor="@color/label_color"
+                    android:textSize="11dp"/>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutScheduleTitle"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="#CDCDCD"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextScheduleTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="Enter Schedule Title"
+                        android:hint="Enter Schedule Title"
+                        android:background="@drawable/textinputedittext_background"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/form_hint_color"
+                        android:textSize="22dp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Schedule Time"
+                    android:textAllCaps="true"
+                    android:textColor="@color/label_color"
+                    android:textSize="11dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutScheduleTime"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextScheduleTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="Select Time"
+                        android:hint="Select Time"
+                        android:background="@drawable/textinputedittext_background"
+                        android:drawableRight="@drawable/arrow_icon"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/form_hint_color"
+                        android:textSize="22dp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Schedule Type"
+                    android:textAllCaps="true"
+                    android:textColor="@color/label_color"
+                    android:textSize="11dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutScheduleType"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextScheduleType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="Select Type"
+                        android:hint="Select Type"
+                        android:background="@drawable/textinputedittext_background"
+                        android:inputType="time"
+                        android:drawableRight="@drawable/arrow_icon"
+                        android:focusable="false"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/form_hint_color"
+                        android:textSize="22dp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Switch
+                    android:id="@+id/switchIsActive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/label_color"
+                    android:textSize="11dp"
+                    android:text="Active" />
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/buttonAddSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/large_button_effect"
+                android:text="Add New Schedule"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
