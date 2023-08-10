@@ -96,6 +96,8 @@ public class FishFeedingAutoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(),AddSchedule.class);
+                LoginSession sessionManagement =new LoginSession(getContext());
+                sessionManagement.writeActivitySession("Add","FishFeedingSchedule");
                 startActivity(intent);
             }
         });
@@ -118,15 +120,19 @@ public class FishFeedingAutoFragment extends Fragment {
         adapterFishFeedingAutoSchedule=new FirebaseRecyclerAdapter<Schedule, ScheduleViewHolder>(optionsFishFeedingAutoSchedule){
             @SuppressLint("SetTextI18n")
             @Override
-            protected void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position, @NonNull Schedule fishFeeder) {
+            protected void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position, @NonNull Schedule schedule) {
 
-                 holder.txt_scheduleTitle.setText(fishFeeder.getScheduleTitle());
-                 holder.txt_scheduleType.setText(fishFeeder.getScheduleType());
-                 holder.txt_scheduleTime.setText(fishFeeder.getScheduleTime());
+                 holder.txt_scheduleTitle.setText(schedule.getScheduleTitle());
+                 holder.txt_scheduleType.setText(schedule.getScheduleType());
+                 holder.txt_scheduleTime.setText(schedule.getScheduleTime());
                  holder.linearLayout_schedule.setOnClickListener(new View.OnClickListener() {
                      @Override
                      public void onClick(View view) {
-
+                         Intent intent = new Intent(getContext(),AddSchedule.class);
+                         LoginSession sessionManagement =new LoginSession(getContext());
+                         sessionManagement.writeActivitySession("Edit","FishFeedingSchedule");
+                         sessionManagement.writeScheduleSession(schedule.getScheduleId(),userId,schedule.getScheduleTitle(),schedule.getScheduleTime(),schedule.getScheduleType(),schedule.getIsActive());
+                         startActivity(intent);
                      }
                  });
 

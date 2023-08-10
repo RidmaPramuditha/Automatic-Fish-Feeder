@@ -34,6 +34,15 @@ public class LoginSession {
 
     public static final String KEY_DEVICEID = "deviceId";
 
+    public static final String KEY_ISADD = "isAdd";
+    public static final String KEY_ISFISHFEEDING = "isFishFeeding";
+    public static final String KEY_SCHEDULEID = "scheduleId";
+    public static final String KEY_SCHEDULEUSERID = "scheduleUserId";
+    public static final String KEY_SCHEDULETITLE = "scheduleTitle";
+    public static final String KEY_SCHEDULETIME = "scheduleTime";
+    public static final String KEY_SCHEDULETYPE = "scheduleType";
+    public static final String KEY_ISACTIVE = "isActive";
+
     public LoginSession(Context context){
         this._context = context;
         sharedPreferences = _context.getSharedPreferences(PREF_SESSION, PRIVATE_MODE);
@@ -69,6 +78,45 @@ public class LoginSession {
         return user;
     }
 
+    public void writeScheduleSession(String scheduleId, String scheduleUserId, String scheduleTitle, String scheduleTime, String scheduleType,String isActive){
+
+        editor.putString(KEY_SCHEDULEID, scheduleId);
+        editor.putString(KEY_SCHEDULEUSERID, scheduleUserId);
+        editor.putString(KEY_SCHEDULETITLE, scheduleTitle);
+        editor.putString(KEY_SCHEDULETIME, scheduleTime);
+        editor.putString(KEY_SCHEDULETYPE, scheduleType);
+        editor.putString(KEY_ISACTIVE, isActive);
+        editor.commit();
+    }
+
+    public HashMap<String, String> readScheduleSession(){
+        HashMap<String, String> schedule = new HashMap<String, String>();
+
+        schedule.put(KEY_SCHEDULEID, sharedPreferences.getString(KEY_SCHEDULEID, null));
+        schedule.put(KEY_SCHEDULEUSERID, sharedPreferences.getString(KEY_SCHEDULEUSERID, null));
+        schedule.put(KEY_SCHEDULETITLE, sharedPreferences.getString(KEY_SCHEDULETITLE, null));
+        schedule.put(KEY_SCHEDULETIME, sharedPreferences.getString(KEY_SCHEDULETIME, null));
+        schedule.put(KEY_SCHEDULETYPE, sharedPreferences.getString(KEY_SCHEDULETYPE, null));
+        schedule.put(KEY_ISACTIVE, sharedPreferences.getString(KEY_ISACTIVE,null));
+
+        return schedule;
+    }
+
+    public void writeActivitySession(String isAdd, String isFishFeeding){
+
+        editor.putString(KEY_ISADD, isAdd);
+        editor.putString(KEY_ISFISHFEEDING, isFishFeeding);
+        editor.commit();
+    }
+
+    public HashMap<String, String> readActivitySession(){
+        HashMap<String, String> activity = new HashMap<String, String>();
+
+        activity.put(KEY_ISADD, sharedPreferences.getString(KEY_ISADD, null));
+        activity.put(KEY_ISFISHFEEDING, sharedPreferences.getString(KEY_ISFISHFEEDING, null));
+
+        return activity;
+    }
     public void checkLogin(){
 
         if(!this.isLoggedIn()){
@@ -114,8 +162,20 @@ public class LoginSession {
         // Staring MainActivity
         _context.startActivity(intent1);
     }
-
-
+    public void clearSchedule()
+    {
+        editor.remove(KEY_SCHEDULEID);
+        editor.remove(KEY_SCHEDULEUSERID);
+        editor.remove(KEY_SCHEDULETITLE);
+        editor.remove(KEY_SCHEDULETIME);
+        editor.remove(KEY_SCHEDULETYPE);
+        editor.remove(KEY_ISACTIVE);
+    }
+    public void clearActivity()
+    {
+        editor.remove(KEY_ISADD);
+        editor.remove(KEY_ISFISHFEEDING);
+    }
     // Get Login State
     public boolean isLoggedIn(){
         return sharedPreferences.getBoolean(IS_LOGIN, false);

@@ -2,19 +2,19 @@ package com.company.automaticfishfeederapp.Model;
 
 public class Schedule {
 
-    private String Id,userId,scheduleTitle, scheduleTime, scheduleType,isActive;
+    private String scheduleId,userId,scheduleTitle, scheduleTime, scheduleType,isActive;
 
     public Schedule()
     {
 
     }
 
-    public String getId() {
-        return Id;
+    public String getScheduleId() {
+        return scheduleId;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public String getUserId() {
