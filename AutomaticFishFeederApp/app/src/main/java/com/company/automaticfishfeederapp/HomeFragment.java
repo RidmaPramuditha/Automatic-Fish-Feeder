@@ -2,12 +2,19 @@ package com.company.automaticfishfeederapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -29,9 +36,10 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String userId,firstName,lastName,profilePicture;
-    private TextView txt_fullName;
+    private String userId,firstName,lastName,profilePicture,phValue;
+    private TextView txt_fullName,txt_phValue;
     private CircleImageView img_profilePicture;
+    private DatabaseReference databaseReference;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -72,8 +80,13 @@ public class HomeFragment extends Fragment {
         txt_fullName = (TextView) view.findViewById(R.id.userFullName);
         img_profilePicture = (CircleImageView) view.findViewById(R.id.userProfilePicture);
 
+        txt_phValue = (TextView) view.findViewById(R.id.textViewPH);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+
         LoginSession sessionManagement =new LoginSession(getContext());
         HashMap<String, String> user = sessionManagement.readLoginSession();
+        userId = user.get(LoginSession.KEY_USERID);
         firstName = user.get(LoginSession.KEY_FIRSTNAME);
         lastName = user.get(LoginSession.KEY_LASTNAME);
         profilePicture = user.get(LoginSession.KEY_PROFILEPICTURE);
@@ -83,4 +96,47 @@ public class HomeFragment extends Fragment {
         return view;
 
     }
+
+    /*private void getPHData()
+    {
+        databaseReference.orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshotUser) {
+
+                for (DataSnapshot child: dataSnapshotUser.getChildren()) {
+
+                    userId = child.getKey();
+                    databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (dataSnapshot.child("userId").exists()) {
+
+                                firstName = dataSnapshot.child("firstName").getValue().toString();
+                                lastName = dataSnapshot.child("lastName").getValue().toString();
+                                mobileNumber = dataSnapshot.child("mobileNumber").getValue().toString();
+                                profilePicture = dataSnapshot.child("profilePicture").getValue().toString();
+                                email = dataSnapshot.child("email").getValue().toString();
+                                deviceId = dataSnapshot.child("deviceId").getValue().toString();
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseErrorUser) {
+
+            }
+        });
+
+
+    }*/
 }

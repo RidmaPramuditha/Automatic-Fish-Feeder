@@ -6,9 +6,24 @@
     tools:context=".FishFeedingManualFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonFeedingOnNow"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feeding No Now" />
+
+        <Button
+            android:id="@+id/buttonFeedingOffNow"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feeding Off Now" />
+    </LinearLayout>
 
 </FrameLayout>
