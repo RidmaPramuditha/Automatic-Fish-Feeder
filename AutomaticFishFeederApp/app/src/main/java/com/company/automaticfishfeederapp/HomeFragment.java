@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.company.automaticfishfeederapp.Model.Schedule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private String userId,firstName,lastName,profilePicture,phValue;
-    private TextView txt_fullName,txt_phValue;
+    private TextView txt_fullName,txt_phValue,txt_nextFeedingTime;
     private CircleImageView img_profilePicture;
     private DatabaseReference databaseReference;
     public HomeFragment() {
@@ -81,8 +82,9 @@ public class HomeFragment extends Fragment {
         img_profilePicture = (CircleImageView) view.findViewById(R.id.userProfilePicture);
 
         txt_phValue = (TextView) view.findViewById(R.id.textViewPH);
+        txt_nextFeedingTime = (TextView) view.findViewById(R.id.textViewNextFeedingTime);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         LoginSession sessionManagement =new LoginSession(getContext());
         HashMap<String, String> user = sessionManagement.readLoginSession();
@@ -93,40 +95,32 @@ public class HomeFragment extends Fragment {
 
         txt_fullName.setText(firstName+" "+lastName);
 
+        nextData();
+
         return view;
 
     }
 
-    /*private void getPHData()
+    private void nextData()
     {
-        databaseReference.orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("FishFeedingSchedule").orderByChild("scheduleTime").limitToFirst(1).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshotUser) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot child: dataSnapshotUser.getChildren()) {
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
 
-                    userId = child.getKey();
-                    databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            if (dataSnapshot.child("userId").exists()) {
-
-                                firstName = dataSnapshot.child("firstName").getValue().toString();
-                                lastName = dataSnapshot.child("lastName").getValue().toString();
-                                mobileNumber = dataSnapshot.child("mobileNumber").getValue().toString();
-                                profilePicture = dataSnapshot.child("profilePicture").getValue().toString();
-                                email = dataSnapshot.child("email").getValue().toString();
-                                deviceId = dataSnapshot.child("deviceId").getValue().toString();
-
-                            }
+                    if (child.child("userId").getValue().equals(userId))
+                    {
+                        Schedule schedule=child.getValue(Schedule.class);
+                        if (Integer.parseInt(schedule.getScheduleTimeHours())>12)
+                        {
+                            txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" PM");
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
+                        else
+                        {
+                            txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" AM");
                         }
-                    });
+                    }
 
                 }
 
@@ -138,5 +132,5 @@ public class HomeFragment extends Fragment {
         });
 
 
-    }*/
+    }
 }

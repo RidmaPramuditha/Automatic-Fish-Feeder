@@ -12,15 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.company.automaticfishfeederapp.Model.Schedule;
 import com.company.automaticfishfeederapp.ViewHolder.ScheduleViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -39,13 +44,11 @@ public class WaterChangeAutoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView rv_waterChangeAutoScheduleList;
     private DatabaseReference databaseReference;
-    private FloatingActionButton btn_addWaterChangeSchedule;
-    private LinearLayoutManager layoutManager;
-    private FirebaseRecyclerOptions<Schedule> optionsWaterChangeAutoSchedule;
-    private FirebaseRecyclerAdapter<Schedule, ScheduleViewHolder> adapterWaterChangeAutoSchedule;
-    private String userId;
+    private String deviceId;
+    private int waterLevel;
+    private ProgressBar progressWaterLevel;
+    private TextView txt_waterLevel;
     public WaterChangeAutoFragment() {
         // Required empty public constructor
     }
@@ -85,69 +88,41 @@ public class WaterChangeAutoFragment extends Fragment {
 
         LoginSession sessionManagement =new LoginSession(getContext());
         HashMap<String, String> user = sessionManagement.readLoginSession();
-        userId = user.get(LoginSession.KEY_USERID);
+        deviceId = user.get(LoginSession.KEY_DEVICEID);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("WaterChangeSchedule");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("SensorData");
 
-        rv_waterChangeAutoScheduleList = (RecyclerView) view.findViewById(R.id.waterChangeAutoScheduleList);
-        btn_addWaterChangeSchedule = (FloatingActionButton) view.findViewById(R.id.buttonAddWaterChangeSchedule);
+        txt_waterLevel = (TextView) view.findViewById(R.id.textViewWaterLevel);
+        progressWaterLevel = (ProgressBar) view.findViewById(R.id.progressWaterLevel);
 
-        btn_addWaterChangeSchedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(),AddSchedule.class);
-                LoginSession sessionManagement =new LoginSession(getContext());
-                sessionManagement.writeActivitySession("Add","WaterChangeSchedule");
-                startActivity(intent);
-            }
-        });
+        progressWaterLevel.setMax(100);
 
-        showWaterChangeAutoSchedule(userId);
+        showSensorData(deviceId);
 
         return view;
     }
 
-    public void showWaterChangeAutoSchedule(String userId) {
+    public void showSensorData(String deviceId) {
 
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setStackFromEnd(false);
-        rv_waterChangeAutoScheduleList.setHasFixedSize(true);
-        rv_waterChangeAutoScheduleList.setLayoutManager(layoutManager);
-
-        Query query=databaseReference.orderByChild("userId").equalTo(userId);
-
-        optionsWaterChangeAutoSchedule=new FirebaseRecyclerOptions.Builder<Schedule>().setQuery(query, Schedule.class).build();
-        adapterWaterChangeAutoSchedule=new FirebaseRecyclerAdapter<Schedule, ScheduleViewHolder>(optionsWaterChangeAutoSchedule){
-            @SuppressLint("SetTextI18n")
+        databaseReference.orderByChild("deviceId").equalTo(deviceId).addValueEventListener(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position, @NonNull Schedule schedule) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
 
-                holder.txt_scheduleTitle.setText(schedule.getScheduleTitle());
-                holder.txt_scheduleType.setText(schedule.getScheduleType());
-                holder.txt_scheduleTime.setText(schedule.getScheduleTime());
-                holder.linearLayout_schedule.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getContext(),AddSchedule.class);
-                        LoginSession sessionManagement =new LoginSession(getContext());
-                        sessionManagement.writeActivitySession("Edit","WaterChangeSchedule");
-                        sessionManagement.writeScheduleSession(schedule.getScheduleId(),userId,schedule.getScheduleTitle(),schedule.getScheduleTime(),schedule.getScheduleType(),schedule.getIsActive());
-                        startActivity(intent);
+                    for (DataSnapshot ds:dataSnapshot.getChildren()) {
+
+                        waterLevel = Integer.parseInt(ds.child("waterLevel").getValue().toString());
+
+                        progressWaterLevel.setProgress(waterLevel);
+                        txt_waterLevel.setText(waterLevel+"%");
                     }
-                });
-
+                }
             }
 
-            @NonNull
             @Override
-            public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_layout,parent,false);
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                return new ScheduleViewHolder(v);
             }
-        };
-        adapterWaterChangeAutoSchedule.startListening();
-        rv_waterChangeAutoScheduleList.setAdapter(adapterWaterChangeAutoSchedule);
-
+        });
     }
 }

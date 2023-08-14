@@ -64,4 +64,5 @@ dependencies {
     implementation 'io.github.muddz:styleabletoast:2.4.0'
 
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+
 }

@@ -39,6 +39,8 @@ public class LoginSession {
     public static final String KEY_SCHEDULEID = "scheduleId";
     public static final String KEY_SCHEDULEUSERID = "scheduleUserId";
     public static final String KEY_SCHEDULETITLE = "scheduleTitle";
+    public static final String KEY_SCHEDULETIMEHOURS = "scheduleTimeHours";
+    public static final String KEY_SCHEDULETIMEMINUTES = "scheduleTimeMinutes";
     public static final String KEY_SCHEDULETIME = "scheduleTime";
     public static final String KEY_SCHEDULETYPE = "scheduleType";
     public static final String KEY_ISACTIVE = "isActive";
@@ -78,12 +80,14 @@ public class LoginSession {
         return user;
     }
 
-    public void writeScheduleSession(String scheduleId, String scheduleUserId, String scheduleTitle, String scheduleTime, String scheduleType,String isActive){
+    public void writeScheduleSession(String scheduleId, String scheduleUserId, String scheduleTitle, String scheduleTime,String scheduleTimeHours,String scheduleTimeMinutes, String scheduleType,String isActive){
 
         editor.putString(KEY_SCHEDULEID, scheduleId);
         editor.putString(KEY_SCHEDULEUSERID, scheduleUserId);
         editor.putString(KEY_SCHEDULETITLE, scheduleTitle);
         editor.putString(KEY_SCHEDULETIME, scheduleTime);
+        editor.putString(KEY_SCHEDULETIMEHOURS, scheduleTimeHours);
+        editor.putString(KEY_SCHEDULETIMEMINUTES, scheduleTimeMinutes);
         editor.putString(KEY_SCHEDULETYPE, scheduleType);
         editor.putString(KEY_ISACTIVE, isActive);
         editor.commit();
@@ -96,6 +100,8 @@ public class LoginSession {
         schedule.put(KEY_SCHEDULEUSERID, sharedPreferences.getString(KEY_SCHEDULEUSERID, null));
         schedule.put(KEY_SCHEDULETITLE, sharedPreferences.getString(KEY_SCHEDULETITLE, null));
         schedule.put(KEY_SCHEDULETIME, sharedPreferences.getString(KEY_SCHEDULETIME, null));
+        schedule.put(KEY_SCHEDULETIMEHOURS, sharedPreferences.getString(KEY_SCHEDULETIMEHOURS, null));
+        schedule.put(KEY_SCHEDULETIMEMINUTES, sharedPreferences.getString(KEY_SCHEDULETIMEMINUTES, null));
         schedule.put(KEY_SCHEDULETYPE, sharedPreferences.getString(KEY_SCHEDULETYPE, null));
         schedule.put(KEY_ISACTIVE, sharedPreferences.getString(KEY_ISACTIVE,null));
 
@@ -168,6 +174,8 @@ public class LoginSession {
         editor.remove(KEY_SCHEDULEUSERID);
         editor.remove(KEY_SCHEDULETITLE);
         editor.remove(KEY_SCHEDULETIME);
+        editor.remove(KEY_SCHEDULETIMEHOURS);
+        editor.remove(KEY_SCHEDULETIMEMINUTES);
         editor.remove(KEY_SCHEDULETYPE);
         editor.remove(KEY_ISACTIVE);
     }

@@ -6,29 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".WaterChangeAutoFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/waterChangeAutoScheduleList"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="horizontal" />
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:gravity="center">
 
+        <ProgressBar
+            android:id="@+id/progressWaterLevel"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="150dp"
+            android:layout_height="300dp"
+            android:progressDrawable="@drawable/verticleprogressbar" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonAddWaterChangeSchedule"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="50dp"
-        android:layout_centerInParent="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/plus_icon"
-        app:backgroundTint="@color/button_color"
-        app:elevation="0dp"
-        app:fabCustomSize="75dp"
-        app:layout_behavior="com.inditeperks.lege.Utils.MoveUpwardBehavior"
-        app:maxImageSize="30dp"
-        app:tint="@color/white" />
+        <TextView
+            android:id="@+id/textViewWaterLevel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_alignEnd="@+id/progressWaterLevel"
+            android:layout_alignBottom="@+id/progressWaterLevel"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="0%"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </RelativeLayout>
 
 </FrameLayout>

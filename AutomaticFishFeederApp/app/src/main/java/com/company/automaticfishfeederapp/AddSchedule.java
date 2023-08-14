@@ -38,7 +38,7 @@ public class AddSchedule extends AppCompatActivity {
     private Switch rbn_isActive;
     private Button btn_buttonAddSchedule;
     private DatabaseReference databaseReference;
-    private String userId,id,scheduleTitle,scheduleTime,scheduleType,isAdd,isFishFeeding,isActive;
+    private String userId,id,scheduleTitle,scheduleTime,scheduleTimeHours,scheduleTimeMinutes,scheduleType,isAdd,isFishFeeding,isActive;
     private FloatingActionButton btn_back;
     private MaterialTimePicker picker;
     @Override
@@ -58,6 +58,8 @@ public class AddSchedule extends AppCompatActivity {
         id = schedule.get(LoginSession.KEY_SCHEDULEID);
         scheduleTitle = schedule.get(LoginSession.KEY_SCHEDULETITLE);
         scheduleTime = schedule.get(LoginSession.KEY_SCHEDULETIME);
+        scheduleTimeHours = schedule.get(LoginSession.KEY_SCHEDULETIMEHOURS);
+        scheduleTimeMinutes = schedule.get(LoginSession.KEY_SCHEDULETIMEMINUTES);
         scheduleType = schedule.get(LoginSession.KEY_SCHEDULETYPE);
         isActive = schedule.get(LoginSession.KEY_ISACTIVE);
 
@@ -80,7 +82,14 @@ public class AddSchedule extends AppCompatActivity {
         if(isAdd.equals("Edit"))
         {
             txt_scheduleTitle.setText(scheduleTitle);
-            txt_scheduleTime.setText(scheduleTime);
+            if (Integer.parseInt(scheduleTimeHours)>12)
+            {
+                txt_scheduleTime.setText(String.format("%02d",(Integer.parseInt(scheduleTimeHours)))+" : "+String.format("%02d",Integer.parseInt(scheduleTimeMinutes))+" PM");
+            }
+            else
+            {
+                txt_scheduleTime.setText(String.format("%02d",(Integer.parseInt(scheduleTimeHours)))+" : "+String.format("%02d",Integer.parseInt(scheduleTimeMinutes))+" AM");
+            }
             txt_scheduleType.setText(scheduleType);
             rbn_isActive.setChecked(Boolean.parseBoolean(isActive));
         }
@@ -109,9 +118,12 @@ public class AddSchedule extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        scheduleTimeHours= String.valueOf(picker.getHour());
+                        scheduleTimeMinutes= String.valueOf(picker.getMinute());
+                        scheduleTime=String.format("%02d",(picker.getHour()))+" : "+String.format("%02d",picker.getMinute());
                         if (picker.getHour()>12)
                         {
-                            txt_scheduleTime.setText(String.format("%02d",(picker.getHour()-12))+" : "+String.format("%02d",picker.getMinute())+" PM");
+                            txt_scheduleTime.setText(String.format("%02d",(picker.getHour()))+" : "+String.format("%02d",picker.getMinute())+" PM");
                         }
                         else
                         {
@@ -153,13 +165,12 @@ public class AddSchedule extends AppCompatActivity {
             public void onClick(View view) {
 
                 scheduleTitle =  txt_scheduleTitle.getText().toString();
-                scheduleTime =  txt_scheduleTime.getText().toString();
                 scheduleType = txt_scheduleType.getText().toString();
                 if(isAdd.equals("Add"))
                 {
-                    addSchedule(scheduleTitle, scheduleTime, scheduleType,isActive);
+                    addSchedule(scheduleTitle, scheduleTime,scheduleTimeHours,scheduleTimeMinutes, scheduleType,isActive);
                 }else{
-                    editSchedule(id,scheduleTitle, scheduleTime, scheduleType,isActive);
+                    editSchedule(id,scheduleTitle, scheduleTime,scheduleTimeHours,scheduleTimeMinutes, scheduleType,isActive);
                 }
 
             }
@@ -183,14 +194,16 @@ public class AddSchedule extends AppCompatActivity {
 
     }
 
-    private void addSchedule(String title, String time, String type,String active)
+    private void addSchedule(String title, String scheduleTime,String scheduleTimeHours,String scheduleTimeMinutes, String type,String active)
     {
         RandomString randomString = new RandomString(21);
         String scheduleId = randomString.nextString();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("scheduleId", scheduleId);
         hashMap.put("scheduleTitle", title);
-        hashMap.put("scheduleTime", time);
+        hashMap.put("scheduleTime", scheduleTime);
+        hashMap.put("scheduleTimeHours", scheduleTimeHours);
+        hashMap.put("scheduleTimeMinutes", scheduleTimeMinutes);
         hashMap.put("scheduleType", type);
         hashMap.put("userId", userId);
         hashMap.put("isActive", active);
@@ -200,12 +213,14 @@ public class AddSchedule extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void editSchedule(String id,String title, String time, String type,String active)
+    private void editSchedule(String id,String title, String scheduleTime, String scheduleTimeHours,String scheduleTimeMinutes, String type,String active)
     {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("scheduleId", id);
         hashMap.put("scheduleTitle", title);
-        hashMap.put("scheduleTime", time);
+        hashMap.put("scheduleTime", scheduleTime);
+        hashMap.put("scheduleTimeHours", scheduleTimeHours);
+        hashMap.put("scheduleTimeMinutes", scheduleTimeMinutes);
         hashMap.put("scheduleType", type);
         hashMap.put("userId", userId);
         hashMap.put("isActive", active);

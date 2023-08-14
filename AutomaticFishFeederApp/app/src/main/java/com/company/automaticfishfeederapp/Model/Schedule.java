@@ -2,7 +2,7 @@ package com.company.automaticfishfeederapp.Model;
 
 public class Schedule {
 
-    private String scheduleId,userId,scheduleTitle, scheduleTime, scheduleType,isActive;
+    private String scheduleId,userId,scheduleTitle,scheduleTime, scheduleTimeHours,scheduleTimeMinutes, scheduleType,isActive;
 
     public Schedule()
     {
@@ -29,16 +29,33 @@ public class Schedule {
         return scheduleTitle;
     }
 
-    public void setScheduleTitle(String scheduleTitle) {
-        this.scheduleTitle = scheduleTitle;
-    }
-
     public String getScheduleTime() {
         return scheduleTime;
     }
 
     public void setScheduleTime(String scheduleTime) {
         this.scheduleTime = scheduleTime;
+    }
+
+    public void setScheduleTitle(String scheduleTitle) {
+        this.scheduleTitle = scheduleTitle;
+    }
+
+
+    public String getScheduleTimeHours() {
+        return scheduleTimeHours;
+    }
+
+    public void setScheduleTimeHours(String scheduleTimeHours) {
+        this.scheduleTimeHours = scheduleTimeHours;
+    }
+
+    public String getScheduleTimeMinutes() {
+        return scheduleTimeMinutes;
+    }
+
+    public void setScheduleTimeMinutes(String scheduleTimeMinutes) {
+        this.scheduleTimeMinutes = scheduleTimeMinutes;
     }
 
     public String getScheduleType() {

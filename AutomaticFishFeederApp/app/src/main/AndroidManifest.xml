@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AutomaticFishFeederApp.NoActionBar"
         tools:targetApi="31">
+
         <activity
             android:name=".EditMyProfileActivity"
             android:exported="false" />
@@ -38,6 +45,10 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
+        <receiver android:name=".JobSchedule"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

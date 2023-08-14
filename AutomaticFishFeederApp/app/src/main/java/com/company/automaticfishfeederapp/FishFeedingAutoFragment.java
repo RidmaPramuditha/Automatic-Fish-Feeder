@@ -1,7 +1,16 @@
 package com.company.automaticfishfeederapp;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.company.automaticfishfeederapp.Model.Schedule;
 import com.company.automaticfishfeederapp.ViewHolder.ScheduleViewHolder;
@@ -22,7 +34,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,6 +107,7 @@ public class FishFeedingAutoFragment extends Fragment {
         rv_fishFeedingAutoScheduleList = (RecyclerView) view.findViewById(R.id.fishFeedingAutoScheduleList);
         btn_addFishFeedingSchedule = (FloatingActionButton) view.findViewById(R.id.buttonAddFishFeedingSchedule);
 
+
         btn_addFishFeedingSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +120,49 @@ public class FishFeedingAutoFragment extends Fragment {
 
         showFishFeedingAutoSchedule(userId);
 
+        //setTimer();
+        notification();
+
         return view;
+    }
+
+    private void notification() {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "Alarm Reminders";
+            String description = "Hey, Wake Up!!";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel  = new NotificationChannel("Notify", name,importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void setTimer(int hour,int minute) {
+        AlarmManager alarmManager  = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+
+        Date date = new Date();
+
+        Calendar cal_alarm = Calendar.getInstance();
+        Calendar cal_now = Calendar.getInstance();
+
+        cal_now.setTime(date);
+        cal_alarm.setTime(date);
+
+        cal_alarm.set(Calendar.HOUR_OF_DAY, hour);
+        cal_alarm.set(Calendar.MINUTE, minute);
+        cal_alarm.set(Calendar.SECOND, 0);
+
+        if(cal_alarm.before(cal_now)){
+            cal_alarm.add(Calendar.DATE, 1);
+        }
+
+        Intent i = new Intent(getContext(), JobSchedule.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, i, 0);
+        alarmManager.set(AlarmManager.RTC, cal_alarm.getTimeInMillis(),pendingIntent);
     }
 
     public void showFishFeedingAutoSchedule(String userId) {
@@ -122,16 +180,24 @@ public class FishFeedingAutoFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position, @NonNull Schedule schedule) {
 
+                 setTimer(Integer.parseInt(schedule.getScheduleTimeHours()),Integer.parseInt(schedule.getScheduleTimeMinutes()));
                  holder.txt_scheduleTitle.setText(schedule.getScheduleTitle());
                  holder.txt_scheduleType.setText(schedule.getScheduleType());
-                 holder.txt_scheduleTime.setText(schedule.getScheduleTime());
+                 if (Integer.parseInt(schedule.getScheduleTimeHours())>12)
+                 {
+                     holder.txt_scheduleTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" PM");
+                 }
+                 else
+                 {
+                     holder.txt_scheduleTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" AM");
+                 }
                  holder.linearLayout_schedule.setOnClickListener(new View.OnClickListener() {
                      @Override
                      public void onClick(View view) {
                          Intent intent = new Intent(getContext(),AddSchedule.class);
                          LoginSession sessionManagement =new LoginSession(getContext());
                          sessionManagement.writeActivitySession("Edit","FishFeedingSchedule");
-                         sessionManagement.writeScheduleSession(schedule.getScheduleId(),userId,schedule.getScheduleTitle(),schedule.getScheduleTime(),schedule.getScheduleType(),schedule.getIsActive());
+                         sessionManagement.writeScheduleSession(schedule.getScheduleId(),userId,schedule.getScheduleTitle(),schedule.getScheduleTime(),schedule.getScheduleTimeHours(),schedule.getScheduleTimeMinutes(),schedule.getScheduleType(),schedule.getIsActive());
                          startActivity(intent);
                      }
                  });

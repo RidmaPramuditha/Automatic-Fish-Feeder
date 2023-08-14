@@ -60,7 +60,15 @@
             android:id="@+id/textViewPH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:textColor="@color/black"
+            android:text="7.0" />
+
+        <TextView
+            android:id="@+id/textViewNextFeedingTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="12 : 00 PM" />
     </LinearLayout>
 
 </FrameLayout>
