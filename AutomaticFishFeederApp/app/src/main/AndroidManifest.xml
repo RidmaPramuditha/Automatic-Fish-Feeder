@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.SET_ALARM"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,7 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AutomaticFishFeederApp.NoActionBar"
         tools:targetApi="31">
+        <activity
+            android:name=".TestActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RingActivity"
+            android:exported="false" />
         <activity
             android:name=".EditMyProfileActivity"
             android:exported="false" />
@@ -27,11 +38,7 @@
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".HomeActivity"
@@ -46,9 +53,21 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <receiver android:name=".JobSchedule"
+        <receiver
+            android:name=".BroadcastReceiver.AlarmBroadcastReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".Service.AlarmService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service android:name=".Service.RescheduleAlarmsService"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>

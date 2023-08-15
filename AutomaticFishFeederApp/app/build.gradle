@@ -65,4 +65,17 @@ dependencies {
 
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
 
+    // butterknife dependencies
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
+    // lifecycle dependencies - viewmodel, livedata
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // room dependencies
+    def room_version = "2.2.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
+
 }

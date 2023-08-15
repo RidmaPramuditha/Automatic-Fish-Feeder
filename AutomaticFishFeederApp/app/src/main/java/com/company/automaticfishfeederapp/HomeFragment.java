@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private TextView txt_fullName,txt_phValue,txt_nextFeedingTime;
     private CircleImageView img_profilePicture;
     private DatabaseReference databaseReference;
+    private ArrayList<Schedule> scheduleList;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -103,25 +105,24 @@ public class HomeFragment extends Fragment {
 
     private void nextData()
     {
-        databaseReference.child("FishFeedingSchedule").orderByChild("scheduleTime").limitToFirst(1).addValueEventListener(new ValueEventListener() {
+        scheduleList=new ArrayList<>();
+        databaseReference.child("FishFeedingSchedule").orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                scheduleList.clear();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
 
-                    if (child.child("userId").getValue().equals(userId))
-                    {
-                        Schedule schedule=child.getValue(Schedule.class);
-                        if (Integer.parseInt(schedule.getScheduleTimeHours())>12)
-                        {
-                            txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" PM");
-                        }
-                        else
-                        {
-                            txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" AM");
-                        }
-                    }
+                    Schedule schedule=child.getValue(Schedule.class);
+                    scheduleList.add(schedule);
 
+                    /*if (Integer.parseInt(schedule.getScheduleTimeHours())>12)
+                    {
+                        txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" PM");
+                    }
+                    else
+                    {
+                        txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" AM");
+                    }*/
                 }
 
             }
