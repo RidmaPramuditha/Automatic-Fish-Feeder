@@ -1,5 +1,6 @@
 package com.company.automaticfishfeederapp.AlarmsList;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -7,22 +8,28 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.company.automaticfishfeederapp.CreateAlarm.CreateAlarmViewModel;
 import com.company.automaticfishfeederapp.Data.Alarm;
 import com.company.automaticfishfeederapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private TextView alarmTime;
     private ImageView alarmRecurring;
     private TextView alarmRecurringDays;
     private TextView alarmTitle;
+    private FloatingActionButton btn_deleteFishFeedingSchedule;
 
     Switch alarmStarted;
 
     private OnToggleAlarmListener listener;
+    private CreateAlarmViewModel createAlarmViewModel;
 
-    public AlarmViewHolder(@NonNull View itemView, OnToggleAlarmListener listener) {
+    public AlarmViewHolder(@NonNull View itemView, OnToggleAlarmListener listener, Context context) {
         super(itemView);
 
         alarmTime = itemView.findViewById(R.id.item_alarm_time);
@@ -30,8 +37,11 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         alarmRecurring = itemView.findViewById(R.id.item_alarm_recurring);
         alarmRecurringDays = itemView.findViewById(R.id.item_alarm_recurringDays);
         alarmTitle = itemView.findViewById(R.id.item_alarm_title);
+        btn_deleteFishFeedingSchedule=itemView.findViewById(R.id.buttonDeleteFishFeedingSchedule);
 
         this.listener = listener;
+
+        createAlarmViewModel = ViewModelProviders.of((FragmentActivity) context).get(CreateAlarmViewModel.class);
     }
 
     public void bind(Alarm alarm) {
@@ -49,15 +59,23 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (alarm.getTitle().length() != 0) {
-            alarmTitle.setText(String.format("%s | %d | %d", alarm.getTitle(), alarm.getAlarmId(), alarm.getCreated()));
+            alarmTitle.setText(alarm.getTitle());
         } else {
-            alarmTitle.setText(String.format("%s | %d | %d", "Alarm", alarm.getAlarmId(), alarm.getCreated()));
+            alarmTitle.setText(alarm.getTitle());
         }
 
         alarmStarted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 listener.onToggle(alarm);
+            }
+        });
+
+        btn_deleteFishFeedingSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAlarmViewModel.deleteById(alarm.getAlarmId());
+
             }
         });
     }

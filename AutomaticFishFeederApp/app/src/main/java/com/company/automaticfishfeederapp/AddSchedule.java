@@ -1,98 +1,75 @@
 package com.company.automaticfishfeederapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.widget.TimePicker;
 
-import com.company.automaticfishfeederapp.Interface.ScheduleTypeClickListener;
-import com.company.automaticfishfeederapp.Model.ScheduleType;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.company.automaticfishfeederapp.CreateAlarm.CreateAlarmViewModel;
+import com.company.automaticfishfeederapp.CreateAlarm.TimePickerUtil;
+import com.company.automaticfishfeederapp.Data.Alarm;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.timepicker.MaterialTimePicker;
-import com.google.android.material.timepicker.TimeFormat;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AddSchedule extends AppCompatActivity {
-    private TextInputEditText txt_scheduleTitle,txt_scheduleTime,txt_scheduleType;
-    private TextInputLayout txt_scheduleTitleLayout,txt_scheduleTimeLayout,txt_scheduleTypeLayout;
-    private Switch rbn_isActive;
-    private Button btn_buttonAddSchedule;
-    private DatabaseReference databaseReference;
-    private String userId,id,scheduleTitle,scheduleTime,scheduleTimeHours,scheduleTimeMinutes,scheduleType,isAdd,isFishFeeding,isActive;
+    @BindView(R.id.fragment_createalarm_timePicker)
+    TimePicker timePicker;
+    @BindView(R.id.fragment_createalarm_title)
+    TextInputEditText title;
+    @BindView(R.id.fragment_createalarm_scheduleAlarm) Button scheduleAlarm;
+    @BindView(R.id.fragment_createalarm_recurring)
+    CheckBox recurring;
+    @BindView(R.id.fragment_createalarm_checkMon) CheckBox mon;
+    @BindView(R.id.fragment_createalarm_checkTue) CheckBox tue;
+    @BindView(R.id.fragment_createalarm_checkWed) CheckBox wed;
+    @BindView(R.id.fragment_createalarm_checkThu) CheckBox thu;
+    @BindView(R.id.fragment_createalarm_checkFri) CheckBox fri;
+    @BindView(R.id.fragment_createalarm_checkSat) CheckBox sat;
+    @BindView(R.id.fragment_createalarm_checkSun) CheckBox sun;
+    @BindView(R.id.fragment_createalarm_recurring_options) LinearLayout recurringOptions;
+    private CreateAlarmViewModel createAlarmViewModel;
     private FloatingActionButton btn_back;
-    private MaterialTimePicker picker;
+    private TextInputLayout txt_scheduleTitleLayout;
+    private TextInputEditText txt_scheduleTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_schedule);
 
-        LoginSession sessionManagement =new LoginSession(getApplicationContext());
-        HashMap<String, String> user = sessionManagement.readLoginSession();
-        userId = user.get(LoginSession.KEY_USERID);
-
-        HashMap<String, String> activity = sessionManagement.readActivitySession();
-        isAdd = activity.get(LoginSession.KEY_ISADD);
-        isFishFeeding = activity.get(LoginSession.KEY_ISFISHFEEDING);
-
-        HashMap<String, String> schedule = sessionManagement.readScheduleSession();
-        id = schedule.get(LoginSession.KEY_SCHEDULEID);
-        scheduleTitle = schedule.get(LoginSession.KEY_SCHEDULETITLE);
-        scheduleTime = schedule.get(LoginSession.KEY_SCHEDULETIME);
-        scheduleTimeHours = schedule.get(LoginSession.KEY_SCHEDULETIMEHOURS);
-        scheduleTimeMinutes = schedule.get(LoginSession.KEY_SCHEDULETIMEMINUTES);
-        scheduleType = schedule.get(LoginSession.KEY_SCHEDULETYPE);
-        isActive = schedule.get(LoginSession.KEY_ISACTIVE);
-
-        txt_scheduleTitle =  (TextInputEditText)findViewById(R.id.textInputEditTextScheduleTitle);
-        txt_scheduleTime =  (TextInputEditText)findViewById(R.id.textInputEditTextScheduleTime);
-        txt_scheduleType =  (TextInputEditText)findViewById(R.id.textInputEditTextScheduleType);
-        rbn_isActive =  (Switch)findViewById(R.id.switchIsActive);
         btn_back = (FloatingActionButton) findViewById(R.id.buttonAddScheduleBack);
-        btn_buttonAddSchedule = (Button) findViewById(R.id.buttonAddSchedule);
+        createAlarmViewModel = ViewModelProviders.of(this).get(CreateAlarmViewModel.class);
+        ButterKnife.bind(AddSchedule.this);
+
         txt_scheduleTitleLayout = (TextInputLayout) findViewById(R.id.textInputLayoutScheduleTitle);
-        txt_scheduleTimeLayout = (TextInputLayout) findViewById(R.id.textInputLayoutScheduleTime);
-        txt_scheduleTypeLayout = (TextInputLayout) findViewById(R.id.textInputLayoutScheduleType);
-
         txt_scheduleTitleLayout.setErrorTextAppearance(R.style.error_style);
-        txt_scheduleTimeLayout.setErrorTextAppearance(R.style.error_style);
-        txt_scheduleTypeLayout.setErrorTextAppearance(R.style.error_style);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(isFishFeeding);
-
-        if(isAdd.equals("Edit"))
-        {
-            txt_scheduleTitle.setText(scheduleTitle);
-            if (Integer.parseInt(scheduleTimeHours)>12)
-            {
-                txt_scheduleTime.setText(String.format("%02d",(Integer.parseInt(scheduleTimeHours)))+" : "+String.format("%02d",Integer.parseInt(scheduleTimeMinutes))+" PM");
+        txt_scheduleTitle=(TextInputEditText)findViewById(R.id.fragment_createalarm_title);
+        recurring.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    recurringOptions.setVisibility(View.VISIBLE);
+                } else {
+                    recurringOptions.setVisibility(View.GONE);
+                }
             }
-            else
-            {
-                txt_scheduleTime.setText(String.format("%02d",(Integer.parseInt(scheduleTimeHours)))+" : "+String.format("%02d",Integer.parseInt(scheduleTimeMinutes))+" AM");
-            }
-            txt_scheduleType.setText(scheduleType);
-            rbn_isActive.setChecked(Boolean.parseBoolean(isActive));
-        }
+        });
+
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,132 +78,73 @@ public class AddSchedule extends AppCompatActivity {
             }
         });
 
-        txt_scheduleTime.setOnClickListener(new View.OnClickListener() {
-
+        scheduleAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                picker = new MaterialTimePicker.Builder()
-                        .setTimeFormat(TimeFormat.CLOCK_12H)
-                        .setHour(12)
-                        .setMinute(0)
-                        .build();
-
-                picker.show(getSupportFragmentManager(),"");
-
-                picker.addOnPositiveButtonClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        scheduleTimeHours= String.valueOf(picker.getHour());
-                        scheduleTimeMinutes= String.valueOf(picker.getMinute());
-                        scheduleTime=String.format("%02d",(picker.getHour()))+" : "+String.format("%02d",picker.getMinute());
-                        if (picker.getHour()>12)
-                        {
-                            txt_scheduleTime.setText(String.format("%02d",(picker.getHour()))+" : "+String.format("%02d",picker.getMinute())+" PM");
-                        }
-                        else
-                        {
-                            txt_scheduleTime.setText(String.format("%02d",(picker.getHour()))+" : "+String.format("%02d",picker.getMinute())+" AM");
-                        }
-
-
-                    }
-                });
-
-            }
-
-        });
-
-        txt_scheduleType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showScheduleTypes();
-
-            }
-        });
-
-        rbn_isActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                {
-                    isActive= String.valueOf(true);
-                }
-                else
-                {
-                    isActive=String.valueOf(false);;
+                if (!validateScheduleTitle()) {
+                    return;
+                }else {
+                    scheduleAlarm();
+                    Intent intent = new Intent(AddSchedule.this, HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });
 
-        btn_buttonAddSchedule.setOnClickListener(new View.OnClickListener() {
+        txt_scheduleTitle.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                scheduleTitle =  txt_scheduleTitle.getText().toString();
-                scheduleType = txt_scheduleType.getText().toString();
-                if(isAdd.equals("Add"))
-                {
-                    addSchedule(scheduleTitle, scheduleTime,scheduleTimeHours,scheduleTimeMinutes, scheduleType,isActive);
-                }else{
-                    editSchedule(id,scheduleTitle, scheduleTime,scheduleTimeHours,scheduleTimeMinutes, scheduleType,isActive);
-                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence searchText, int start, int before, int count) {
+                txt_scheduleTitleLayout.setError(null);
+                txt_scheduleTitle.setBackground(getDrawable(R.drawable.textinputedittext_background));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
-
     }
 
-    private void showScheduleTypes() {
+    private void scheduleAlarm() {
+        int alarmId = new Random().nextInt(Integer.MAX_VALUE);
 
-        List<ScheduleType> list=new ArrayList<>();
-        list.add(new ScheduleType(1,"Today",0xffd56960));
-        list.add(new ScheduleType(2,"Everyday",0xff41ACCE));
+        Alarm alarm = new Alarm(
+                alarmId,
+                TimePickerUtil.getTimePickerHour(timePicker),
+                TimePickerUtil.getTimePickerMinute(timePicker),
+                title.getText().toString(),
+                System.currentTimeMillis(),
+                true,
+                recurring.isChecked(),
+                mon.isChecked(),
+                tue.isChecked(),
+                wed.isChecked(),
+                thu.isChecked(),
+                fri.isChecked(),
+                sat.isChecked(),
+                sun.isChecked()
+        );
 
-        ScheduleTypeBottomSheet scheduleTypeBottomSheet=new ScheduleTypeBottomSheet(list, new ScheduleTypeClickListener() {
-            @Override
-            public void clickItem(ScheduleType scheduleType) {
-                txt_scheduleType.setText(scheduleType.getScheduleType());
-            }
-        });
-        scheduleTypeBottomSheet.show(getSupportFragmentManager(),scheduleTypeBottomSheet.getTag());
+        createAlarmViewModel.insert(alarm);
 
+        alarm.schedule(getApplicationContext());
     }
 
-    private void addSchedule(String title, String scheduleTime,String scheduleTimeHours,String scheduleTimeMinutes, String type,String active)
-    {
-        RandomString randomString = new RandomString(21);
-        String scheduleId = randomString.nextString();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("scheduleId", scheduleId);
-        hashMap.put("scheduleTitle", title);
-        hashMap.put("scheduleTime", scheduleTime);
-        hashMap.put("scheduleTimeHours", scheduleTimeHours);
-        hashMap.put("scheduleTimeMinutes", scheduleTimeMinutes);
-        hashMap.put("scheduleType", type);
-        hashMap.put("userId", userId);
-        hashMap.put("isActive", active);
+    private boolean validateScheduleTitle() {
 
-        databaseReference.child(scheduleId).setValue(hashMap);
-        Intent intent = new Intent(AddSchedule.this,HomeActivity.class);
-        startActivity(intent);
-    }
+        if (TextUtils.isEmpty(txt_scheduleTitle.getText())) {
+            txt_scheduleTitleLayout.setError("Schedule title cannot be empty");
+            return false;
+        } else {
+            txt_scheduleTitleLayout.setError(null);
+            return true;
+        }
 
-    private void editSchedule(String id,String title, String scheduleTime, String scheduleTimeHours,String scheduleTimeMinutes, String type,String active)
-    {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("scheduleId", id);
-        hashMap.put("scheduleTitle", title);
-        hashMap.put("scheduleTime", scheduleTime);
-        hashMap.put("scheduleTimeHours", scheduleTimeHours);
-        hashMap.put("scheduleTimeMinutes", scheduleTimeMinutes);
-        hashMap.put("scheduleType", type);
-        hashMap.put("userId", userId);
-        hashMap.put("isActive", active);
-
-        databaseReference.child(id).updateChildren(hashMap);
-        Intent intent = new Intent(AddSchedule.this,HomeActivity.class);
-        startActivity(intent);
     }
 }

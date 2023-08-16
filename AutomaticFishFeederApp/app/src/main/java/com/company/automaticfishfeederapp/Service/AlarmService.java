@@ -9,15 +9,21 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.company.automaticfishfeederapp.LoginSession;
 import com.company.automaticfishfeederapp.R;
 import com.company.automaticfishfeederapp.RingActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,7 +38,7 @@ public class AlarmService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i("NumberGenerated", "Function has generated zero.");
+        //Log.i("NumberGenerated", "Function has generated zero.");
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
         mediaPlayer.setLooping(true);
 
@@ -54,9 +60,9 @@ public class AlarmService extends Service {
         String alarmTitle = String.format("%s Alarm", intent.getStringExtra(TITLE));
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(alarmTitle)
-                .setContentText("Ring Ring .. Ring Ring")
-                .setSmallIcon(R.drawable.ic_alarm_black_24dp)
+                .setContentTitle("Fish Feeding")
+                .setContentText("Fish Feeding Now Starting...")
+                .setSmallIcon(R.drawable.notify_icon)
                 .setContentIntent(pendingIntent)
                 .build();
 
@@ -66,7 +72,8 @@ public class AlarmService extends Service {
         vibrator.vibrate(pattern, 0);
 
         startForeground(1, notification);
-        feedingNoNow("15267");
+        feedingNoNow(deviceId);
+
         return START_STICKY;
     }
 
@@ -88,9 +95,30 @@ public class AlarmService extends Service {
     {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("deviceId", deviceId);
+        hashMap.put("triggerValue", 1);
+
+        databaseReference.child(deviceId).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Runnable runnable=new Runnable() {
+                    @Override
+                    public void run() {
+                        feedingOffNow(deviceId);
+                    }
+                };
+
+                Handler handler=new Handler(Looper.getMainLooper());
+                handler.postDelayed(runnable,60000);
+            }
+        });
+    }
+
+    private void feedingOffNow(String deviceId)
+    {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("deviceId", deviceId);
         hashMap.put("triggerValue", 0);
 
         databaseReference.child(deviceId).updateChildren(hashMap);
-
     }
 }

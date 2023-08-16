@@ -150,7 +150,7 @@ public class Alarm {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
             alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
@@ -159,7 +159,7 @@ public class Alarm {
             );
         } else {
             String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
-            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
             final long RUN_DAILY = 24 * 60 * 60 * 1000;
             alarmManager.setRepeating(
@@ -181,8 +181,8 @@ public class Alarm {
         this.started = false;
 
         String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, alarmId);
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-        Log.i("cancel", toastText);
+        //Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+        //Log.i("cancel", toastText);
     }
 
     public String getRecurringDaysText() {

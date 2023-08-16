@@ -6,29 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".FishFeedingAutoFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fishFeedingAutoScheduleList"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="horizontal" />
+        android:weightSum="2"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonAddFishFeedingSchedule"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="50dp"
-        android:layout_centerInParent="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/plus_icon"
-        app:backgroundTint="@color/button_color"
-        app:elevation="0dp"
-        app:fabCustomSize="75dp"
-        app:layout_behavior="com.inditeperks.lege.Utils.MoveUpwardBehavior"
-        app:maxImageSize="30dp"
-        app:tint="@color/white" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="Fish Feeding Schedules"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_margin="10dp"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/buttonAddFishFeedingSchedule"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/plus_icon"
+                    app:backgroundTint="@color/button_color"
+                    app:elevation="0dp"
+                    app:fabCustomSize="50dp"
+                    app:layout_behavior="com.inditeperks.lege.Utils.MoveUpwardBehavior"
+                    app:maxImageSize="20dp"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_listalarms_recylerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
 
 </FrameLayout>

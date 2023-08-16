@@ -21,4 +21,7 @@ public interface AlarmDao {
 
     @Update
     void update(Alarm alarm);
+
+    @Query("DELETE FROM alarm_table WHERE alarmId = :id")
+    void deleteById(int id);
 }

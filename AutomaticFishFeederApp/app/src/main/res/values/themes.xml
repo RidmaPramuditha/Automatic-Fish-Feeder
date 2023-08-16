@@ -45,4 +45,11 @@
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="CustomSwitch" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlActivated">@color/bg_color</item>
+
+        <item name="android:colorForeground">#42221f1f</item>
+    </style>
+
 </resources>

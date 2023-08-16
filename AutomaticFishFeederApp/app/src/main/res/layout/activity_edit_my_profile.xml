@@ -186,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Email"
+                    android:text="Mobile Number"
                     android:textAllCaps="true"
                     android:textColor="@color/label_color"
                     android:textSize="11dp" />
@@ -200,7 +200,7 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutEditEmail"
+                android:id="@+id/textInputLayoutEditMobileNumber"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,12 +212,12 @@
                 tools:layout_editor_absoluteY="397dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextEditEmail"
+                    android:id="@+id/textInputEditTextEditMobileNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="Email"
+                    android:autofillHints="Mobile Number"
                     android:background="@drawable/textinputedittext_background"
-                    android:hint="Email"
+                    android:hint="Mobile Number"
                     android:inputType="text"
                     android:textColor="@color/white"
                     android:textColorHint="@color/form_hint_color"

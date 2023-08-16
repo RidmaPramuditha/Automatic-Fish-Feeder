@@ -56,19 +56,94 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textViewPH"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="7.0" />
+        <LinearLayout
+            android:id="@+id/layoutPH"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textViewNextFeedingTime"
+            <TextView
+                android:id="@+id/textViewPH"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@color/blue"
+                android:textColor="@color/black"
+                android:text="7.0"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTemp"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ProgressBar
+
+                android:id="@+id/progressTemperature"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="left"
+                android:max="100"
+                android:min="0"
+                android:progress="0"
+                android:progressDrawable="@drawable/circleprogressbartemperature"
+                android:secondaryProgress="100" />
+
+            <TextView
+                android:id="@+id/txtTemperature"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:text="0%"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imagTemperature"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:src="@drawable/temp" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="12 : 00 PM" />
+            android:layout_margin="25dp"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progressHomeWaterLevel"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="150dp"
+                android:layout_height="300dp"
+                android:progressDrawable="@drawable/verticleprogressbar" />
+
+            <TextView
+                android:id="@+id/textViewHomeWaterLevel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignEnd="@+id/progressHomeWaterLevel"
+                android:layout_alignBottom="@+id/progressHomeWaterLevel"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="0%"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+        </RelativeLayout>
     </LinearLayout>
 
 </FrameLayout>

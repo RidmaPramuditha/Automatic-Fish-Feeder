@@ -2,15 +2,14 @@ package com.company.automaticfishfeederapp;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.company.automaticfishfeederapp.Model.Schedule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,11 +37,11 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String userId,firstName,lastName,profilePicture,phValue;
-    private TextView txt_fullName,txt_phValue,txt_nextFeedingTime;
+    private String userId,firstName,lastName,profilePicture,phValue,deviceId,temp,waterLevel;
+    private TextView txt_fullName,txt_phValue,txt_temp,txt_waterLevel;
     private CircleImageView img_profilePicture;
     private DatabaseReference databaseReference;
-    private ArrayList<Schedule> scheduleList;
+    private ProgressBar progressbar_temperature,progressbar_waterLevel;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -84,45 +83,51 @@ public class HomeFragment extends Fragment {
         img_profilePicture = (CircleImageView) view.findViewById(R.id.userProfilePicture);
 
         txt_phValue = (TextView) view.findViewById(R.id.textViewPH);
-        txt_nextFeedingTime = (TextView) view.findViewById(R.id.textViewNextFeedingTime);
+        txt_temp = (TextView) view.findViewById(R.id.txtTemperature);
+        txt_waterLevel = (TextView) view.findViewById(R.id.textViewHomeWaterLevel);
+        progressbar_temperature = (ProgressBar) view.findViewById(R.id.progressTemperature);
+        progressbar_waterLevel = (ProgressBar) view.findViewById(R.id.progressHomeWaterLevel);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("SensorData");
 
         LoginSession sessionManagement =new LoginSession(getContext());
         HashMap<String, String> user = sessionManagement.readLoginSession();
+        deviceId = user.get(LoginSession.KEY_DEVICEID);
         userId = user.get(LoginSession.KEY_USERID);
         firstName = user.get(LoginSession.KEY_FIRSTNAME);
         lastName = user.get(LoginSession.KEY_LASTNAME);
         profilePicture = user.get(LoginSession.KEY_PROFILEPICTURE);
 
         txt_fullName.setText(firstName+" "+lastName);
+        progressbar_waterLevel.setMax(100);
+        progressbar_temperature.setMax(100);
 
-        nextData();
-
+        ShowSensorData(deviceId);
         return view;
 
     }
 
-    private void nextData()
+    private void ShowSensorData(String deviceId)
     {
-        scheduleList=new ArrayList<>();
-        databaseReference.child("FishFeedingSchedule").orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("deviceId").equalTo(deviceId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                scheduleList.clear();
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                if(dataSnapshot.exists()){
 
-                    Schedule schedule=child.getValue(Schedule.class);
-                    scheduleList.add(schedule);
+                    for (DataSnapshot ds:dataSnapshot.getChildren()) {
 
-                    /*if (Integer.parseInt(schedule.getScheduleTimeHours())>12)
-                    {
-                        txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" PM");
+                        waterLevel = ds.child("waterLevel").getValue().toString();
+                        temp = ds.child("temp").getValue().toString();
+                        phValue = ds.child("phValue").getValue().toString();
+
+                        progressbar_waterLevel.setProgress(Integer.parseInt(waterLevel));
+                        txt_waterLevel.setText(waterLevel+"%");
+
+                        progressbar_temperature.setProgress(Integer.parseInt(temp));
+                        txt_temp.setText(temp+"°C");
+
+                        txt_phValue.setText(phValue);
                     }
-                    else
-                    {
-                        txt_nextFeedingTime.setText(String.format("%02d",(Integer.parseInt(schedule.getScheduleTimeHours())))+" : "+String.format("%02d",Integer.parseInt(schedule.getScheduleTimeMinutes()))+" AM");
-                    }*/
                 }
 
             }

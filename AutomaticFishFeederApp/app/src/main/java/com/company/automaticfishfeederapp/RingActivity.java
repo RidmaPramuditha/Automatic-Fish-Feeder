@@ -20,12 +20,13 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class RingActivity extends AppCompatActivity {
     @BindView(R.id.activity_ring_dismiss) Button dismiss;
     @BindView(R.id.activity_ring_snooze) Button snooze;
-    @BindView(R.id.activity_ring_clock) ImageView clock;
+    @BindView(R.id.activity_ring_clock) CircleImageView clock;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

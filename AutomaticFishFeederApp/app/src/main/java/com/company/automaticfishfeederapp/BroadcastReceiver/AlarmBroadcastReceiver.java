@@ -26,13 +26,13 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             String toastText = String.format("Alarm Reboot");
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             startRescheduleAlarmsService(context);
         }
         else {
             String toastText = String.format("Alarm Received");
             System.out.printf( "javatpoint2");
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             if (!intent.getBooleanExtra(RECURRING, false)) {
                 System.out.printf( "javatpoint1");
                 startAlarmService(context, intent);
@@ -87,21 +87,21 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         Intent intentService = new Intent(context, AlarmService.class);
         intentService.putExtra(TITLE, intent.getStringExtra(TITLE));
         String toastText = String.format("alarm should be received");
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-        System.out.printf( "javatpoint");
+        //Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+        //System.out.printf( "javatpoint");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String toastText1 = String.format("111");
-            Toast.makeText(context, toastText1, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, toastText1, Toast.LENGTH_SHORT).show();
             context.startForegroundService(intentService);
             String toastText2 = String.format("112");
-            Toast.makeText(context, toastText2, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, toastText2, Toast.LENGTH_SHORT).show();
         } else {
             String toastText1 = String.format("211");
-            Toast.makeText(context, toastText1, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, toastText1, Toast.LENGTH_SHORT).show();
             context.startService(intentService);
             String toastText2 = String.format("212");
-            Toast.makeText(context, toastText2, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, toastText2, Toast.LENGTH_SHORT).show();
         }
 
 

@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="25dp"
+        android:layout_margin="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,11 +50,18 @@
                     android:textStyle="bold" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="25dp"
             android:orientation="vertical">
+
+            <TimePicker
+                android:id="@+id/fragment_createalarm_timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +90,7 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditTextScheduleTitle"
+                        android:id="@+id/fragment_createalarm_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:autofillHints="Enter Schedule Title"
@@ -97,105 +104,89 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <CheckBox
+                android:id="@+id/fragment_createalarm_recurring"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:checked="false"
+                android:text="Recurring Schedules"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_title" />
 
-                <TextView
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Schedule Time"
-                    android:textAllCaps="true"
-                    android:textColor="@color/label_color"
-                    android:textSize="11dp" />
+                    android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutScheduleTime"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:errorEnabled="true"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditTextScheduleTime"
+                    <LinearLayout
+                        android:id="@+id/fragment_createalarm_recurring_options"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autofillHints="Select Time"
-                        android:hint="Select Time"
-                        android:background="@drawable/textinputedittext_background"
-                        android:drawableRight="@drawable/arrow_icon"
-                        android:focusable="false"
-                        android:inputType="date"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/form_hint_color"
-                        android:textSize="22dp"/>
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_recurring">
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkMon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mon"
+                            android:textColor="@color/black" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkTue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tue"
+                            android:textColor="@color/black" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Schedule Type"
-                    android:textAllCaps="true"
-                    android:textColor="@color/label_color"
-                    android:textSize="11dp" />
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkWed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wed"
+                            android:textColor="@color/black" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutScheduleType"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:errorEnabled="true"
-                    app:hintEnabled="false">
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkThu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thu"
+                            android:textColor="@color/black" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditTextScheduleType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints="Select Type"
-                        android:hint="Select Type"
-                        android:background="@drawable/textinputedittext_background"
-                        android:inputType="time"
-                        android:drawableRight="@drawable/arrow_icon"
-                        android:focusable="false"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/form_hint_color"
-                        android:textSize="22dp"/>
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkFri"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fri"
+                            android:textColor="@color/black" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkSat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sat"
+                            android:textColor="@color/black" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                        <CheckBox
+                            android:id="@+id/fragment_createalarm_checkSun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sun"
+                            android:textColor="@color/black" />
 
-                <Switch
-                    android:id="@+id/switchIsActive"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:textAllCaps="true"
-                    android:textColor="@color/label_color"
-                    android:textSize="11dp"
-                    android:text="Active" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
 
-
-            </LinearLayout>
             <Button
-                android:id="@+id/buttonAddSchedule"
+                android:id="@+id/fragment_createalarm_scheduleAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginTop="15dp"
