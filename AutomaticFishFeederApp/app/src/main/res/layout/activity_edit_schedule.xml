@@ -43,7 +43,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Add Schedule"
+                    android:text="Edit Schedule"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="16dp"
@@ -186,12 +186,12 @@
             </HorizontalScrollView>
 
             <Button
-                android:id="@+id/fragment_createalarm_scheduleAlarm"
+                android:id="@+id/buttonUpdateSchedule"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/large_button_effect"
-                android:text="Add Schedule"
+                android:text="Update Schedule"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="14dp"

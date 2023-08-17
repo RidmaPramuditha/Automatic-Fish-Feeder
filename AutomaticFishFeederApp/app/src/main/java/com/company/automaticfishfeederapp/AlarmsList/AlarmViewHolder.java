@@ -1,6 +1,8 @@
 package com.company.automaticfishfeederapp.AlarmsList;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -8,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.company.automaticfishfeederapp.CreateAlarm.CreateAlarmViewModel;
 import com.company.automaticfishfeederapp.Data.Alarm;
+import com.company.automaticfishfeederapp.EditSchedule;
+import com.company.automaticfishfeederapp.HomeActivity;
 import com.company.automaticfishfeederapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,11 +28,12 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private TextView alarmRecurringDays;
     private TextView alarmTitle;
     private FloatingActionButton btn_deleteFishFeedingSchedule;
-
+    private CardView card_schedule;
     Switch alarmStarted;
 
     private OnToggleAlarmListener listener;
     private CreateAlarmViewModel createAlarmViewModel;
+    private Context context;
 
     public AlarmViewHolder(@NonNull View itemView, OnToggleAlarmListener listener, Context context) {
         super(itemView);
@@ -38,9 +44,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         alarmRecurringDays = itemView.findViewById(R.id.item_alarm_recurringDays);
         alarmTitle = itemView.findViewById(R.id.item_alarm_title);
         btn_deleteFishFeedingSchedule=itemView.findViewById(R.id.buttonDeleteFishFeedingSchedule);
-
+        card_schedule=itemView.findViewById(R.id.cardSchedule);
         this.listener = listener;
-
+        this.context=context;
         createAlarmViewModel = ViewModelProviders.of((FragmentActivity) context).get(CreateAlarmViewModel.class);
     }
 
@@ -76,6 +82,15 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 createAlarmViewModel.deleteById(alarm.getAlarmId());
 
+            }
+        });
+
+        card_schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, EditSchedule.class);
+                intent.putExtra("alarm", alarm);
+                context.startActivity(intent);
             }
         });
     }

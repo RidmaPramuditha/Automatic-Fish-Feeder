@@ -22,6 +22,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 
@@ -29,7 +30,7 @@ import com.company.automaticfishfeederapp.BroadcastReceiver.AlarmBroadcastReceiv
 import com.company.automaticfishfeederapp.CreateAlarm.DayUtil;
 
 @Entity(tableName = "alarm_table")
-public class Alarm {
+public class Alarm implements Serializable {
     @PrimaryKey
     @NonNull
     private int alarmId;

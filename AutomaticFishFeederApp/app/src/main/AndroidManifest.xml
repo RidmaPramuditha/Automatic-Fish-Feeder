@@ -18,6 +18,9 @@
         android:theme="@style/Theme.AutomaticFishFeederApp.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".EditSchedule"
+            android:exported="false" />
+        <activity
             android:name=".RingActivity"
             android:exported="false" />
         <activity
