@@ -104,6 +104,7 @@ public class ProfileFragment extends Fragment {
         profilePicture = user.get(LoginSession.KEY_PROFILEPICTURE);
 
         txt_fullName.setText(firstName+" "+lastName);
+        Picasso.get().load(profilePicture).into(img_profilePicture);
         txt_email.setText(email);
         if(mobileNumber=="")
         {

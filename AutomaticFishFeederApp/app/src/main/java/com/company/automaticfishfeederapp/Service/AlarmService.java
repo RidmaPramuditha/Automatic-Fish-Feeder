@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
-    private Vibrator vibrator;
+    //private Vibrator vibrator;
     private DatabaseReference databaseReference;
     private String deviceId;
     @Override
@@ -42,7 +42,7 @@ public class AlarmService extends Service {
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
         mediaPlayer.setLooping(true);
 
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        //vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         LoginSession sessionManagement =new LoginSession(getApplicationContext());
         HashMap<String, String> user = sessionManagement.readLoginSession();
@@ -68,8 +68,8 @@ public class AlarmService extends Service {
 
         mediaPlayer.start();
 
-        long[] pattern = { 0, 100, 1000 };
-        vibrator.vibrate(pattern, 0);
+        //long[] pattern = { 0, 100, 1000 };
+        //vibrator.vibrate(pattern, 0);
 
         startForeground(1, notification);
         feedingNoNow(deviceId);
@@ -82,7 +82,7 @@ public class AlarmService extends Service {
         super.onDestroy();
 
         mediaPlayer.stop();
-        vibrator.cancel();
+        //vibrator.cancel();
     }
 
     @Nullable

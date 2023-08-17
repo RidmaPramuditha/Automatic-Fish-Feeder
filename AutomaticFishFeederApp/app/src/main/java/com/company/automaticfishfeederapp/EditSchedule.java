@@ -82,7 +82,7 @@ public class EditSchedule extends AppCompatActivity {
         fri.setChecked(alarm.isFriday());
         sat.setChecked(alarm.isSaturday());
         sun.setChecked(alarm.isSunday());
-        
+
         recurring.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

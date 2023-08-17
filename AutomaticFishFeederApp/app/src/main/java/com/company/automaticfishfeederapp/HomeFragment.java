@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,6 +100,7 @@ public class HomeFragment extends Fragment {
         profilePicture = user.get(LoginSession.KEY_PROFILEPICTURE);
 
         txt_fullName.setText(firstName+" "+lastName);
+        Picasso.get().load(profilePicture).into(img_profilePicture);
         progressbar_waterLevel.setMax(100);
         progressbar_temperature.setMax(100);
 

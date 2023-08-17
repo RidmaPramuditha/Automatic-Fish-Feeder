@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".FishFeedingManualFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,28 +15,71 @@
             android:id="@+id/profileSettingsProfilePicture"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:adjustViewBounds="false"
-            android:src="@drawable/img_feeding"
             android:cropToPadding="false"
-            app:civ_border_width="2dp"
+            android:src="@drawable/img_feeding"
             app:civ_border_color="@color/purple"
-            app:layout_constraintBottom_toTopOf="@+id/LinearLayout2" />
+            app:civ_border_width="2dp" />
 
-        <Button
-            android:id="@+id/buttonFeedingOnNow"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textViewTimer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Feeding No Now" />
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/bg_color"
+            android:textSize="36sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/buttonFeedingOffNow"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Feeding Off Now" />
+            android:layout_marginTop="5dp"
+            android:textSize="20dp"
+            android:textColor="@color/bg_color"
+            android:gravity="center"
+            android:text="Fish feeding started now!!!" />
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/rippleEffect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:rb_color="@color/blue"
+            app:rb_duration="2000"
+            app:rb_radius="100dp"
+            app:rb_rippleAmount="5"
+            app:rb_scale="2">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/buttonFishFeeding"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/fishfeedicon"
+                app:backgroundTint="@color/button_color"
+                app:elevation="0dp"
+                app:fabCustomSize="100dp"
+                app:layout_behavior="com.inditeperks.lege.Utils.MoveUpwardBehavior"
+                app:maxImageSize="75dp"
+                app:tint="@color/white" />
+
+        </com.skyfishjy.library.RippleBackground>
+
     </LinearLayout>
 
 </FrameLayout>

@@ -5,10 +5,44 @@
     android:layout_height="match_parent"
     tools:context=".WaterChangeManualFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:gravity="right">
+
+            <ProgressBar
+                android:id="@+id/progressManualWaterLevel"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="150dp"
+                android:layout_height="300dp"
+                android:progressDrawable="@drawable/verticleprogressbar" />
+
+            <TextView
+                android:id="@+id/textViewManualWaterLevel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignEnd="@+id/progressManualWaterLevel"
+                android:layout_alignBottom="@+id/progressManualWaterLevel"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="0%"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/buttonWaterChange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:text="Water Change" />
+    </LinearLayout>
 
 </FrameLayout>

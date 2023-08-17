@@ -162,7 +162,7 @@
                         android:background="@drawable/textinputedittext_background"
                         android:hint="Last Name"
                         android:inputType="textCapSentences"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/form_hint_color"
                         android:textSize="22dp" />
 
@@ -219,7 +219,7 @@
                     android:background="@drawable/textinputedittext_background"
                     android:hint="Mobile Number"
                     android:inputType="text"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/form_hint_color"
                     android:textSize="22dp" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -6,13 +6,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.skyfishjy.library.RippleBackground;
 
 import java.util.HashMap;
 
@@ -31,9 +35,11 @@ public class FishFeedingManualFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button btn_feedingOnNow,btn_feedingOffNow;
     private DatabaseReference databaseReference;
     private String deviceId;
+    private FloatingActionButton btn_feeding;
+    private TextView txt_timer,txt_message;
+    private RippleBackground rippleEffect;
     public FishFeedingManualFragment() {
         // Required empty public constructor
     }
@@ -75,22 +81,45 @@ public class FishFeedingManualFragment extends Fragment {
         HashMap<String, String> user = sessionManagement.readLoginSession();
         deviceId = user.get(LoginSession.KEY_DEVICEID);
 
-        btn_feedingOnNow = (Button) view.findViewById(R.id.buttonFeedingOnNow);
-        btn_feedingOffNow = (Button) view.findViewById(R.id.buttonFeedingOffNow);
+        rippleEffect=(RippleBackground)view.findViewById(R.id.rippleEffect);
+        btn_feeding = (FloatingActionButton) view.findViewById(R.id.buttonFishFeeding);
+        txt_timer = (TextView) view.findViewById(R.id.textViewTimer);
+        txt_message = (TextView) view.findViewById(R.id.textViewMessage);
 
+        txt_timer.setVisibility(View.GONE);
+        txt_message.setVisibility(View.GONE);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("FishFeeding");
 
-        btn_feedingOnNow.setOnClickListener(new View.OnClickListener() {
+        btn_feeding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feedingNoNow(deviceId);
-            }
-        });
 
-        btn_feedingOffNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                feedingOffNow(deviceId);
+                new CountDownTimer(60000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        long secondsInMilli = 1000;
+                        long minutesInMilli = secondsInMilli * 60;
+
+                        long elapsedMinutes = millisUntilFinished / minutesInMilli;
+                        millisUntilFinished = millisUntilFinished % minutesInMilli;
+
+                        long elapsedSeconds = millisUntilFinished / secondsInMilli;
+
+                        String leftTime = String.format("%02d:%02d", elapsedMinutes, elapsedSeconds);
+                        feedingNoNow(deviceId);
+                        rippleEffect.startRippleAnimation();
+                        txt_timer.setVisibility(View.VISIBLE);
+                        txt_message.setVisibility(View.VISIBLE);
+                        txt_timer.setText(leftTime);
+                    }
+
+                    public void onFinish() {
+                        rippleEffect.stopRippleAnimation();
+                        feedingOffNow(deviceId);
+                        txt_timer.setVisibility(View.GONE);
+                        txt_message.setVisibility(View.GONE);
+                    }
+                }.start();
             }
         });
 

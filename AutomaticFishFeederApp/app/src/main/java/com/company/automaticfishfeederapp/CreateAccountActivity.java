@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -96,6 +98,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 email = txt_email.getText().toString().trim();
                 password = txt_password.getText().toString().trim();
                 deviceId = txt_deviceId.getText().toString().trim();
+
                 if (!validateFirstName() | !validateLastName() | !validateEmail() | !validatePassword()|!validateDeviceId()) {
                     return;
                 }else {
@@ -231,20 +234,43 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                             FirebaseUser refUser = firebaseAuth.getCurrentUser();
                             userId = refUser.getUid();
+                            Uri imageUrl = Uri.parse("android.resource://com.company.automaticfishfeederapp/"+R.drawable.common_profile_picture);
+                            final StorageReference fileRef = storageReference.child(userId + ".jpg");
 
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("firstName", firstName);
-                            hashMap.put("lastName", lastName);
-                            hashMap.put("email", email);
-                            hashMap.put("deviceId", deviceId);
-                            hashMap.put("userId", userId);
-                            hashMap.put("mobileNumber", "");
-                            hashMap.put("profilePicture", "");
+                            uploadTask = fileRef.putFile(imageUrl);
+                            uploadTask.continueWithTask(new Continuation() {
+                                @Override
+                                public Object then(@NonNull Task task) throws Exception
+                                {
+                                    if (!task.isSuccessful())
+                                    {
+                                        throw task.getException();
+                                    }
 
-                            databaseReference.child(userId).setValue(hashMap);
+                                    return fileRef.getDownloadUrl();
+                                }
+                            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task)
+                                {
+                                    Uri downloadUrl = task.getResult();
+                                    image = downloadUrl.toString();
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("firstName", firstName);
+                                    hashMap.put("lastName", lastName);
+                                    hashMap.put("email", email);
+                                    hashMap.put("deviceId", deviceId);
+                                    hashMap.put("userId", userId);
+                                    hashMap.put("mobileNumber", "");
+                                    hashMap.put("profilePicture", image);
 
-                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                                    databaseReference.child(userId).setValue(hashMap);
+
+                                    Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
 
                         }
                         else {
