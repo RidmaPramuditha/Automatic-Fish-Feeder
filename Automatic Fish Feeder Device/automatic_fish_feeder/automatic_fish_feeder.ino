@@ -1,15 +1,17 @@
 #include <ESP8266WiFi.h>
 #include <FirebaseArduino.h>
- 
+#include <Servo.h>
 #define FIREBASE_HOST "automaticfishfeeder-7941e-default-rtdb.firebaseio.com" // Firebase host
 #define FIREBASE_AUTH "AQWNYi5n5m2UOLpUsPGjDtMvq7V0chJiRIOv38hq" //Firebase Auth code
 #define WIFI_SSID "" //Enter your wifi Name
 #define WIFI_PASSWORD "" // Enter your password
 int fireStatus = 0;
+Servo servo1;
  
 void setup() {
   Serial.begin(9600);
   pinMode(D1, OUTPUT);
+  servo1.attach(D4);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
@@ -30,12 +32,14 @@ void loop() {
   fireStatus = Firebase.getInt("FishFeeding/15267/triggerValue");
   fireStatus = Firebase.getInt("WaterChange/15267/triggerValue");
   if (fireStatus == 1) {
-    Serial.println("Led Turned ON");
-    digitalWrite(D1, HIGH);
+    //Serial.println("Led Turned ON");
+    //digitalWrite(D1, HIGH);
+    servo1.write(360);
+    
   }
   else if (fireStatus == 0) {
-    Serial.println("Led Turned OFF");
-    digitalWrite(D1, LOW);
+    //Serial.println("Led Turned OFF");
+    //digitalWrite(D1, LOW);
   }
   else {
     Serial.println("Command Error! Please send 0/1");
