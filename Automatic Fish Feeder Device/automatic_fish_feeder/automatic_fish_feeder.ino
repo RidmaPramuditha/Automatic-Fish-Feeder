@@ -10,6 +10,10 @@
 #define ONE_WIRE_BUS 2
 int fireStatus = 0;
 int temp=0;
+#define trigPin 12
+#define echoPin 13
+long duration;
+int distance;
 Servo servo;
 OneWire oneWire(ONE_WIRE_BUS);  
 DallasTemperature sensors(&oneWire);
@@ -17,7 +21,9 @@ DallasTemperature sensors(&oneWire);
 void setup() {
   Serial.begin(9600);
   servo.attach(D4);
-  sensors.begin(); 
+  sensors.begin();
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
@@ -34,6 +40,7 @@ void loop() {
 
   fishFeeding();
   temperature();
+  waterLevel();
 } 
 
 void temperature(){
@@ -42,6 +49,24 @@ void temperature(){
   Firebase.setInt("SensorData/15267/temp", temp);
 }
 
+void waterLevel(){
+   // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  
+  // Calculate the distance
+  distance = duration * 0.034/2;
+  distance = map(distance,0,15, 100, 0);
+  Serial.println(distance);
+  Firebase.setInt("SensorData/15267/waterLevel", (int)distance);
+}
 
 void fishFeeding()
 {

@@ -1,7 +1,9 @@
 package com.company.automaticfishfeederapp;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -74,6 +76,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,8 +104,11 @@ public class HomeFragment extends Fragment {
 
         txt_fullName.setText(firstName+" "+lastName);
         Picasso.get().load(profilePicture).into(img_profilePicture);
+
         progressbar_waterLevel.setMax(100);
-        progressbar_temperature.setMax(100);
+        progressbar_waterLevel.setMin(0);
+
+        progressbar_temperature.setMax(50);
 
         ShowSensorData(deviceId);
         return view;

@@ -1,15 +1,11 @@
 const int trigPin = 12;
-const int echoPin = 14;
-
-//define sound velocity in cm/uS
-#define SOUND_VELOCITY 0.034
-#define CM_TO_INCH 0.393701
+const int echoPin = 13;
 
 long duration;
-float distanceCm;
+float distance;
 
 void setup() {
-  Serial.begin(115200); // Starts the serial communication
+  Serial.begin(9600); // Starts the serial communication
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 }
@@ -27,10 +23,10 @@ void loop() {
   duration = pulseIn(echoPin, HIGH);
   
   // Calculate the distance
-  distanceCm = duration * SOUND_VELOCITY/2;
+  distance = duration * 0.034/2;
   
   // Prints the distance on the Serial Monitor
   Serial.print("Distance (cm): ");
-  Serial.println(distanceCm);
+  Serial.println(distance);
   delay(1000);
 }
