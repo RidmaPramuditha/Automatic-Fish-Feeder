@@ -1,15 +1,23 @@
 #include <ESP8266WiFi.h>
 #include <FirebaseArduino.h>
 #include <Servo.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #define FIREBASE_HOST "automaticfishfeeder-7941e-default-rtdb.firebaseio.com" // Firebase host
 #define FIREBASE_AUTH "AQWNYi5n5m2UOLpUsPGjDtMvq7V0chJiRIOv38hq" //Firebase Auth code
 #define WIFI_SSID "Randula" //Enter your wifi Name
 #define WIFI_PASSWORD "pass@123" // Enter your password
+#define ONE_WIRE_BUS 2
 int fireStatus = 0;
+int temp=0;
 Servo servo;
+OneWire oneWire(ONE_WIRE_BUS);  
+DallasTemperature sensors(&oneWire);
+
 void setup() {
   Serial.begin(9600);
   servo.attach(D4);
+  sensors.begin(); 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
@@ -25,8 +33,14 @@ void setup() {
 void loop() {
 
   fishFeeding();
-  
+  temperature();
 } 
+
+void temperature(){
+  sensors.requestTemperatures(); 
+  temp=(int)sensors.getTempCByIndex(0);
+  Firebase.setInt("SensorData/15267/temp", temp);
+}
 
 
 void fishFeeding()

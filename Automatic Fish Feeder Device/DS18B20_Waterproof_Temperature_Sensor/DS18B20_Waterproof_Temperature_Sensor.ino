@@ -23,14 +23,8 @@ void loop(void)
 
   //print the temperature in Celsius
   Serial.print("Temperature: ");
-  Serial.print(sensors.getTempCByIndex(0));
-  Serial.print((char)176);//shows degrees character
-  Serial.print("C  |  ");
+  Serial.print((int)sensors.getTempCByIndex(0));
   
-  //print the temperature in Fahrenheit
-  Serial.print((sensors.getTempCByIndex(0) * 9.0) / 5.0 + 32.0);
-  Serial.print((char)176);//shows degrees character
-  Serial.println("F");
   
   delay(500);
 }
