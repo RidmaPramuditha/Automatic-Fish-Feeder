@@ -68,7 +68,7 @@ public class WaterChangeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_water_change, container, false);
 
-        btn_auto= (Button) view.findViewById(R.id.buttonWaterChangeAuto);
+        /*btn_auto= (Button) view.findViewById(R.id.buttonWaterChangeAuto);
         btn_manual= (Button)view.findViewById(R.id.buttonWaterChangeManual);
 
         btn_auto.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +102,7 @@ public class WaterChangeFragment extends Fragment {
 
 
             }
-        });
+        });*/
 
         return view;
     }
@@ -112,12 +112,12 @@ public class WaterChangeFragment extends Fragment {
         super.onStart();
         FragmentManager fragManager = pageContext.getSupportFragmentManager();
         FragmentTransaction ft=fragManager.beginTransaction();
-        ft.replace(R.id.waterChangeFragmentLayout,new WaterChangeAutoFragment());
+        ft.replace(R.id.waterChangeFragmentLayout,new WaterChangeManualFragment());
         ft.commit();
-        btn_auto.setTextColor(getResources().getColor(R.color.white));
+        /*btn_auto.setTextColor(getResources().getColor(R.color.white));
         btn_auto.setBackgroundColor(getResources().getColor(R.color.button_color));
         btn_manual.setTextColor(getResources().getColor(R.color.gray_color_text));
-        btn_manual.setBackgroundColor(getResources().getColor(R.color.white));
+        btn_manual.setBackgroundColor(getResources().getColor(R.color.white));*/
     }
 
     @Override

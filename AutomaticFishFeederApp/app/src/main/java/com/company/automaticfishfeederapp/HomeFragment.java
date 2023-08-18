@@ -41,10 +41,12 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private String userId,firstName,lastName,profilePicture,phValue,deviceId,temp,waterLevel;
-    private TextView txt_fullName,txt_phValue,txt_temp,txt_waterLevel;
+    private TextView txt_fullName,txt_phValue,txt_waterLevel;
     private CircleImageView img_profilePicture;
     private DatabaseReference databaseReference;
-    private ProgressBar progressbar_temperature,progressbar_waterLevel;
+    private ProgressBar progressbar_waterLevel;
+    private CustomProgressBar progressbar_temperature;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -87,9 +89,8 @@ public class HomeFragment extends Fragment {
         img_profilePicture = (CircleImageView) view.findViewById(R.id.userProfilePicture);
 
         txt_phValue = (TextView) view.findViewById(R.id.textViewPH);
-        txt_temp = (TextView) view.findViewById(R.id.txtTemperature);
         txt_waterLevel = (TextView) view.findViewById(R.id.textViewHomeWaterLevel);
-        progressbar_temperature = (ProgressBar) view.findViewById(R.id.progressTemperature);
+        progressbar_temperature = (CustomProgressBar) view.findViewById(R.id.progressTemperature);
         progressbar_waterLevel = (ProgressBar) view.findViewById(R.id.progressHomeWaterLevel);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("SensorData");
@@ -107,8 +108,6 @@ public class HomeFragment extends Fragment {
 
         progressbar_waterLevel.setMax(100);
         progressbar_waterLevel.setMin(0);
-
-        progressbar_temperature.setMax(50);
 
         ShowSensorData(deviceId);
         return view;
@@ -132,7 +131,6 @@ public class HomeFragment extends Fragment {
                         txt_waterLevel.setText(waterLevel+"%");
 
                         progressbar_temperature.setProgress(Integer.parseInt(temp));
-                        txt_temp.setText(temp+"°C");
 
                         txt_phValue.setText(phValue);
                     }
