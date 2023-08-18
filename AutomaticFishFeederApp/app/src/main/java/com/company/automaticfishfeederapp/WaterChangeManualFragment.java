@@ -96,7 +96,7 @@ public class WaterChangeManualFragment extends Fragment {
                 waterChange(deviceId);
             }
         });
-        
+
         showSensorData(deviceId);
 
         return view;

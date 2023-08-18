@@ -94,7 +94,7 @@ public class FishFeedingManualFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                new CountDownTimer(60000, 1000) {
+                new CountDownTimer(10000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
                         long secondsInMilli = 1000;

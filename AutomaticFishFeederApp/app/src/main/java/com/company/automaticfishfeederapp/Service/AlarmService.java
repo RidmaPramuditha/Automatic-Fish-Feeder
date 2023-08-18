@@ -108,7 +108,7 @@ public class AlarmService extends Service {
                 };
 
                 Handler handler=new Handler(Looper.getMainLooper());
-                handler.postDelayed(runnable,60000);
+                handler.postDelayed(runnable,20000);
             }
         });
     }
