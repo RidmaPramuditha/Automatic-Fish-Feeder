@@ -73,12 +73,10 @@ void fishFeeding()
   fireStatus = Firebase.getInt("FishFeeding/15267/triggerValue");
   
   if (fireStatus == 1) {
-    Serial.println("Moter ON");
     servo.attach(D4);
     servo.write(360);
   }
   else {
-    Serial.println("Moter OFF");
     servo.detach();
   }
 }
