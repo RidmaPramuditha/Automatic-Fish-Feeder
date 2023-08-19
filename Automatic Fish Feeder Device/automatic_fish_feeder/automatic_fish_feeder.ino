@@ -75,6 +75,7 @@ void waterLevel() {
   // Calculate the distance
   distance = duration * 0.034 / 2;
   distance = map(distance, 0, 15, 100, 0);
+  //map(value, fromLow, fromHigh, toLow, toHigh)
   //distance = map(distance,0,78, 0, 100);
   Serial.println(distance);
   Firebase.setInt("SensorData/15267/waterLevel", (int)distance);
