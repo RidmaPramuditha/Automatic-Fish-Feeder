@@ -19,6 +19,10 @@
 | PH Sensor   | https://bit.ly/3c9sE0m |
 | Ultrasonic Sensor  | https://bit.ly/3c9sE0m |
 
+## Android Application 
+ This is a java mobile application which is implemented using android studio. Firebase Realtime database is used as the database.
+ 
+
 ## Support
 You can support my projects on [Buy me a coffee](https://www.buymeacoffee.com/pramuditharidma) and [Patreon](https://www.patreon.com/ridmapramuditha).
 
