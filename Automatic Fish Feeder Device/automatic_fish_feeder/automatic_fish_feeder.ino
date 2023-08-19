@@ -20,7 +20,7 @@ DallasTemperature sensors(&oneWire);
 
 void setup() {
   Serial.begin(9600);
-  servo.attach(D4);
+  servo.attach(D2);
   sensors.begin();
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
