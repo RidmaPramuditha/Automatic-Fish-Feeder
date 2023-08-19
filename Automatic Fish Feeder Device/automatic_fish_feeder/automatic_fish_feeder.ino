@@ -13,7 +13,8 @@
 #define motorPinC  0
 #define motorPinD  14
 int fireStatus = 0;
-int waterStatus=0;
+int waterIn=0;
+int waterOut=0;
 int temp = 0;
 #define trigPin 12
 #define echoPin 13
@@ -50,7 +51,8 @@ void loop() {
   fishFeeding();
   temperature();
   waterLevel();
-  manualFishWaterChange();
+  manualFishTankWaterIn();
+  manualFishTankWaterOut();
   
 }
 
@@ -94,16 +96,26 @@ void fishFeeding()
   }
 }
 
-void manualFishWaterChange()
+void manualFishTankWaterIn()
 {
-  waterStatus = Firebase.getInt("WaterChange/15267/triggerValue");
+  waterIn = Firebase.getInt("WaterIn/15267/triggerValue");
 
-  if (waterStatus == 1) {
-    waterPumpOutOn();
-    waterPumpOutOff();
+  if (waterIn == 1) {
     waterPumpInOn();
+  }else{
     waterPumpInOff();
-    Firebase.setInt("WaterChange/15267/triggerValue", 0);
+  }
+  
+}
+
+void manualFishTankWaterOut()
+{
+  waterOut = Firebase.getInt("WaterOut/15267/triggerValue");
+
+  if (waterOut == 1) {
+    waterPumpOutOn();
+  }else{
+    waterPumpOutOff();
   }
   
 }
