@@ -1,8 +1,10 @@
 package com.company.automaticfishfeederapp;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link WaterChangeManualFragment#newInstance} factory method to
@@ -36,10 +40,12 @@ public class WaterChangeManualFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private DatabaseReference databaseReference;
-    private String deviceId,waterLevel;
-    private ProgressBar progressWaterLevel;
-    private TextView txt_waterLevel;
+    private String deviceId,waterLevel,phValue,temp;
+    private TextView txt_status,txt_phValue,txt_waterLevel;
+    private ProgressBar progressbar_waterLevel;
+    private CustomProgressBar progressbar_temperature;
     private Button btn_waterChange;
+
     public WaterChangeManualFragment() {
         // Required empty public constructor
     }
@@ -71,6 +77,7 @@ public class WaterChangeManualFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,11 +91,16 @@ public class WaterChangeManualFragment extends Fragment {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        txt_phValue = (TextView) view.findViewById(R.id.textViewManualPH);
         txt_waterLevel = (TextView) view.findViewById(R.id.textViewManualWaterLevel);
-        progressWaterLevel = (ProgressBar) view.findViewById(R.id.progressManualWaterLevel);
+        txt_status=(TextView)view.findViewById(R.id.textViewStatus);
+        progressbar_temperature = (CustomProgressBar) view.findViewById(R.id.progressManualTemperature);
+        progressbar_waterLevel = (ProgressBar) view.findViewById(R.id.progressManualWaterLevel);
+
         btn_waterChange = (Button) view.findViewById(R.id.buttonWaterChange);
 
-        progressWaterLevel.setMax(100);
+        progressbar_waterLevel.setMax(100);
+        progressbar_waterLevel.setMin(0);
 
         btn_waterChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,9 +133,15 @@ public class WaterChangeManualFragment extends Fragment {
                     for (DataSnapshot ds:dataSnapshot.getChildren()) {
 
                         waterLevel = ds.child("waterLevel").getValue().toString();
+                        temp = ds.child("temp").getValue().toString();
+                        phValue = ds.child("phValue").getValue().toString();
 
-                        progressWaterLevel.setProgress(Integer.parseInt(waterLevel));
+                        progressbar_waterLevel.setProgress(Integer.parseInt(waterLevel));
                         txt_waterLevel.setText(waterLevel+"%");
+
+                        progressbar_temperature.setProgress(Integer.parseInt(temp));
+
+                        txt_phValue.setText(phValue);
                     }
                 }
             }
