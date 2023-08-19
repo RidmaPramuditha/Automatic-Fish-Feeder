@@ -123,7 +123,7 @@ void manualFishTankWaterOut()
 void waterPumpOutOn()
 {
   if (distance >= 3)
-    digitalWrite(motorPinA, HIGH);
+  digitalWrite(motorPinA, HIGH);
   digitalWrite(motorPinB, LOW);
   digitalWrite(motorPinC, LOW);
   digitalWrite(motorPinD, LOW);
@@ -132,7 +132,7 @@ void waterPumpOutOn()
 void waterPumpOutOff()
 {
   if (distance >= 14)
-    digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinA, LOW);
   digitalWrite(motorPinB, LOW);
   digitalWrite(motorPinC, LOW);
   digitalWrite(motorPinD, LOW);
@@ -141,7 +141,7 @@ void waterPumpOutOff()
 void waterPumpInOn()
 {
   if (distance >= 14 && distance >= 3)
-    digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinA, LOW);
   digitalWrite(motorPinB, LOW);
   digitalWrite(motorPinC, HIGH);
   digitalWrite(motorPinD, LOW);
@@ -150,7 +150,7 @@ void waterPumpInOn()
 void waterPumpInOff()
 {
   if (distance <= 3)
-    digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinA, LOW);
   digitalWrite(motorPinB, LOW);
   digitalWrite(motorPinC, LOW);
   digitalWrite(motorPinD, LOW);
