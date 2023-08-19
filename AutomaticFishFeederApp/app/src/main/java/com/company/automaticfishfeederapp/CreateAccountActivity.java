@@ -288,7 +288,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         hashMap.put("deviceId", deviceId);
         hashMap.put("triggerValue", 0);
 
-        databaseReferenceDefaultData.child("WaterChange").child(deviceId).setValue(hashMap);
+        databaseReferenceDefaultData.child("WaterIn").child(deviceId).setValue(hashMap);
+        databaseReferenceDefaultData.child("WaterOut").child(deviceId).setValue(hashMap);
         databaseReferenceDefaultData.child("FishFeeding").child(deviceId).setValue(hashMap);
 
         HashMap<String, Object> sensorData = new HashMap<>();

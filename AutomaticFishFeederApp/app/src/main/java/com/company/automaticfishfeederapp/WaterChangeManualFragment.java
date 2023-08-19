@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,8 +46,7 @@ public class WaterChangeManualFragment extends Fragment {
     private TextView txt_status,txt_phValue,txt_waterLevel;
     private ProgressBar progressbar_waterLevel;
     private CustomProgressBar progressbar_temperature;
-    private Button btn_waterChange;
-
+    private FloatingActionButton btn_waterOutOn,btn_waterOutOff,btn_waterInOn,btn_waterInOff;
     public WaterChangeManualFragment() {
         // Required empty public constructor
     }
@@ -97,15 +98,36 @@ public class WaterChangeManualFragment extends Fragment {
         progressbar_temperature = (CustomProgressBar) view.findViewById(R.id.progressManualTemperature);
         progressbar_waterLevel = (ProgressBar) view.findViewById(R.id.progressManualWaterLevel);
 
-        btn_waterChange = (Button) view.findViewById(R.id.buttonWaterChange);
+        btn_waterInOn = (FloatingActionButton) view.findViewById(R.id.buttonWaterInOn);
+        btn_waterInOff = (FloatingActionButton) view.findViewById(R.id.buttonWaterInOff);
+        btn_waterOutOn = (FloatingActionButton) view.findViewById(R.id.buttonWaterOutOn);
+        btn_waterOutOff = (FloatingActionButton) view.findViewById(R.id.buttonWaterOutOff);
 
         progressbar_waterLevel.setMax(100);
         progressbar_waterLevel.setMin(0);
 
-        btn_waterChange.setOnClickListener(new View.OnClickListener() {
+        btn_waterInOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                waterChange(deviceId);
+                waterInOn(deviceId);
+            }
+        });
+        btn_waterInOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                waterInOff(deviceId);
+            }
+        });
+        btn_waterOutOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                waterOutOn(deviceId);
+            }
+        });
+        btn_waterOutOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                waterOutOff(deviceId);
             }
         });
 
@@ -114,13 +136,40 @@ public class WaterChangeManualFragment extends Fragment {
         return view;
     }
 
-    private void waterChange(String deviceId)
+    private void waterInOn(String deviceId)
     {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("deviceId", deviceId);
         hashMap.put("triggerValue", 1);
 
-        databaseReference.child("WaterChange").child(deviceId).updateChildren(hashMap);
+        databaseReference.child("WaterIn").child(deviceId).updateChildren(hashMap);
+
+    }
+    private void waterInOff(String deviceId)
+    {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("deviceId", deviceId);
+        hashMap.put("triggerValue", 0);
+
+        databaseReference.child("WaterIn").child(deviceId).updateChildren(hashMap);
+
+    }
+    private void waterOutOn(String deviceId)
+    {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("deviceId", deviceId);
+        hashMap.put("triggerValue", 1);
+
+        databaseReference.child("WaterOut").child(deviceId).updateChildren(hashMap);
+
+    }
+    private void waterOutOff(String deviceId)
+    {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("deviceId", deviceId);
+        hashMap.put("triggerValue", 0);
+
+        databaseReference.child("WaterOut").child(deviceId).updateChildren(hashMap);
 
     }
     public void showSensorData(String deviceId) {
