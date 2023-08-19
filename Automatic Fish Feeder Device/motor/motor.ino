@@ -9,20 +9,55 @@ void setup()
   pinMode(motorPinB, OUTPUT);
   pinMode(motorPinC, OUTPUT);
   pinMode(motorPinD, OUTPUT);
+
+}
+
+void loop() {
+  waterPumpOutOn();
+  waterPumpOutOff();
+  waterPumpInOn();
+  waterPumpInOff();
   
 }
 
-void loop(){
-   digitalWrite(motorPinA, HIGH);
-  digitalWrite(motorPinB, LOW);
 
-  delay(10000);
+void waterPumpOutOn()
+{
+  if (distance >= 3)
+    digitalWrite(motorPinA, HIGH);
+  digitalWrite(motorPinB, LOW);
+  digitalWrite(motorPinC, LOW);
+  digitalWrite(motorPinD, LOW);
+}
+
+void waterPumpOutOff()
+{
+  if (distance => 14)
+    digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinB, LOW);
+  digitalWrite(motorPinC, LOW);
+  digitalWrite(motorPinD, LOW);
+}
+
+void waterPumpInOn()
+{
+  if (distance => 14 && distance >= 3)
+    digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinB, LOW);
   digitalWrite(motorPinC, HIGH);
   digitalWrite(motorPinD, LOW);
 }
 
-//servo D4---->2
-//temp D2---->4
+void waterPumpInOff()
+{
+  if (distance <= 3)
+    digitalWrite(motorPinA, LOW);
+  digitalWrite(motorPinB, LOW);
+  digitalWrite(motorPinC, LOW);
+  digitalWrite(motorPinD, LOW);
+}
+//servo D2---->2
+//temp D4---->4
 //triger---->D6
 //echo---->D7
 //
