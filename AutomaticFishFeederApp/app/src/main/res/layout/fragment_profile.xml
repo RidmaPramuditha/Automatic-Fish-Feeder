@@ -182,13 +182,14 @@
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,"
                 android:textAllCaps="false"
                 android:textColor="#3D3D3D"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="© 2022-2023 Fish Feeder. All rights reserves."
+                android:text="© 2023 Fish Feeder. All rights reserves."
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="12sp"

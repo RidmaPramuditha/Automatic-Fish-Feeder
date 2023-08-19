@@ -43,7 +43,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private TextInputLayout txt_firstNameLayout, txt_lastNameLayout,txt_emailLayout, txt_passwordLayout,txt_deviceIdLayout;
     private TextInputEditText txt_firstName, txt_lastName,txt_email,txt_password,txt_deviceId;
     private String userId,firstName,lastName,email,password,profilePicture,deviceId;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseReferenceDefaultData;
     private FirebaseAuth firebaseAuth;
 
     private String image = "";
@@ -69,6 +69,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference().child("Profile Picture");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+        databaseReferenceDefaultData = FirebaseDatabase.getInstance().getReference();
         firebaseAuth=FirebaseAuth.getInstance();
 
         btn_createAccount = (Button) findViewById(R.id.buttonCreateAccount);
@@ -265,7 +266,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                     hashMap.put("profilePicture", image);
 
                                     databaseReference.child(userId).setValue(hashMap);
-
+                                    defaultDataSeed(deviceId);
                                     Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                 }
@@ -278,6 +279,25 @@ public class CreateAccountActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+    }
+
+    private void defaultDataSeed(String deviceId)
+    {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("deviceId", deviceId);
+        hashMap.put("triggerValue", 0);
+
+        databaseReferenceDefaultData.child("WaterChange").child(deviceId).setValue(hashMap);
+        databaseReferenceDefaultData.child("FishFeeding").child(deviceId).setValue(hashMap);
+
+        HashMap<String, Object> sensorData = new HashMap<>();
+        sensorData.put("deviceId", deviceId);
+        sensorData.put("phValue", "0.0");
+        sensorData.put("temp", 0);
+        sensorData.put("waterLevel", 0);
+
+        databaseReferenceDefaultData.child("SensorData").child(deviceId).setValue(sensorData);
 
     }
     private boolean validateFirstName() {
