@@ -86,7 +86,7 @@ void fishFeeding()
   fireStatus = Firebase.getInt("FishFeeding/15267/triggerValue");
 
   if (fireStatus == 1) {
-    servo.attach(D4);
+    servo.attach(D2);
     servo.write(360);
   }
   else {
