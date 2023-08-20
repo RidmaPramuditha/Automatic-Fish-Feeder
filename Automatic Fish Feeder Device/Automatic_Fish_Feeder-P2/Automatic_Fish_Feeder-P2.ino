@@ -13,7 +13,6 @@ int waterOut=0;
 
 void setup() {
   Serial.begin(9600);
-  sensors.begin();
   pinMode(motorPinA, OUTPUT);
   pinMode(motorPinB, OUTPUT);
   pinMode(motorPinC, OUTPUT);
