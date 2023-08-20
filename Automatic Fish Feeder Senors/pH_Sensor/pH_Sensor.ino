@@ -1,3 +1,9 @@
+#include <ESP8266WiFi.h>
+#include <FirebaseArduino.h>
+#define FIREBASE_HOST "automaticfishfeeder-7941e-default-rtdb.firebaseio.com" // Firebase host
+#define FIREBASE_AUTH "AQWNYi5n5m2UOLpUsPGjDtMvq7V0chJiRIOv38hq" //Firebase Auth code
+#define WIFI_SSID "MTN-MobileWiFi-E5573" //Enter your wifi Name
+#define WIFI_PASSWORD "QFBB1YHH" // Enter your password
 const int analogInPin = A0;
 int sensorValue = 0;
 unsigned long int avgValue;
@@ -8,6 +14,16 @@ void setup()
 {
   Serial.begin(9600);
   pinMode(analogInPin, INPUT);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Connecting");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println();
+  Serial.println("Connected.");
+  Serial.println(WiFi.localIP());
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
 }
 
 void loop()
@@ -40,4 +56,5 @@ void loop()
   Serial.print("sensor = ");
   Serial.println(phValue);
   delay(900);
+  Firebase.setInt("SensorData/15267/phValue", phValue);
 }
