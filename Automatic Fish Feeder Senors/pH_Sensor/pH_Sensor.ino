@@ -56,5 +56,5 @@ void loop()
   Serial.print("sensor = ");
   Serial.println(phValue);
   delay(900);
-  Firebase.setInt("SensorData/15267/phValue", phValue);
+  Firebase.setFloat("SensorData/15267/phValue", phValue);
 }
