@@ -1,43 +1,43 @@
-#define SensorPin A0          // the pH meter Analog output is connected with the Arduino’s Analog
-unsigned long int avgValue;  //Store the average value of the sensor feedback
+const int analogInPin = A0;
+int sensorValue = 0;
+unsigned long int avgValue;
 float b;
-int buf[10],temp;
- 
+int buf[10], temp = 0;
+
 void setup()
 {
-  pinMode(13,OUTPUT);  
-  Serial.begin(9600);  
-  Serial.println("Ready");    //Test the serial monitor
+  Serial.begin(9600);
+  pinMode(analogInPin, INPUT);
 }
+
 void loop()
 {
-  for(int i=0;i<10;i++)       //Get 10 sample value from the sensor for smooth the value
-  { 
-    buf[i]=analogRead(SensorPin);
+  for (int i = 0; i < 10; i++)
+  {
+    buf[i] = analogRead(analogInPin);
     delay(10);
   }
-  for(int i=0;i<9;i++)        //sort the analog from small to large
+  for (int i = 0; i < 9; i++)
   {
-    for(int j=i+1;j<10;j++)
+    for (int j = i + 1; j < 10; j++)
     {
-      if(buf[i]>buf[j])
+      if (buf[i] > buf[j])
       {
-        temp=buf[i];
-        buf[i]=buf[j];
-        buf[j]=temp;
+        temp = buf[i];
+        buf[i] = buf[j];
+        buf[j] = temp;
       }
     }
   }
-  avgValue=0;
-  for(int i=2;i<8;i++)                      //take the average value of 6 center sample
-    avgValue+=buf[i];
-  float phValue=(float)avgValue*5.0/1024/6; //convert the analog into millivolt
-  phValue=3.5*phValue;                      //convert the millivolt into pH value
-  Serial.print("    pH:");  
-  Serial.print(phValue,2);
-  Serial.println(" ");
-  digitalWrite(13, HIGH);       
-  delay(800);
-  digitalWrite(13, LOW); 
- 
+  avgValue = 0;
+  for (int i = 2; i < 8; i++)
+    avgValue += buf[i];
+
+  float pHVol = (float)avgValue * 5.0 / 1024 / 4.3;
+  float phValue = -5.70 * pHVol + 30.20;
+  phValue = 14.2 + phValue;
+  //float phValue = -3.0 * pHVol+17.5;
+  Serial.print("sensor = ");
+  Serial.println(phValue);
+  delay(900);
 }
