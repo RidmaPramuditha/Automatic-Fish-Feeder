@@ -10,6 +10,11 @@
 #define motorPinD  14
 int waterIn=0;
 int waterOut=0;
+const int analogInPin = A0;
+int sensorValue = 0;
+unsigned long int avgValue;
+float b;
+int buf[10], temp = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -17,6 +22,7 @@ void setup() {
   pinMode(motorPinB, OUTPUT);
   pinMode(motorPinC, OUTPUT);
   pinMode(motorPinD, OUTPUT);
+  pinMode(analogInPin, INPUT);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
@@ -32,6 +38,7 @@ void setup() {
 void loop() {
   manualFishTankWaterIn();
   manualFishTankWaterOut();
+  phSensorFirebase();
   
 }
 
@@ -89,4 +96,44 @@ void waterPumpInOff()
   digitalWrite(motorPinB, LOW);
   digitalWrite(motorPinC, LOW);
   digitalWrite(motorPinD, LOW);
+}
+
+void phSensorRead()
+{
+  for (int i = 0; i < 10; i++)
+  {
+    buf[i] = analogRead(analogInPin);
+    delay(10);
+  }
+  for (int i = 0; i < 9; i++)
+  {
+    for (int j = i + 1; j < 10; j++)
+    {
+      if (buf[i] > buf[j])
+      {
+        temp = buf[i];
+        buf[i] = buf[j];
+        buf[j] = temp;
+      }
+    }
+  }
+  avgValue = 0;
+  for (int i = 2; i < 8; i++)
+    avgValue += buf[i];
+
+  float pHVol = (float)avgValue * 5.0 / 1024 / 4.3;
+  float phValue = -5.70 * pHVol + 30.20;
+  phValue = 14.2 + phValue;
+  //float phValue = -3.0 * pHVol+17.5;
+  Serial.print("sensor = ");
+  Serial.println(phValue);
+  delay(900);
+  //Firebase.setFloat("SensorData/15267/phValue", phValue);
+  
+}
+
+void phSensorFirebase()
+{
+  phSensorRead();
+  Firebase.setFloat("SensorData/15267/phValue", phValue);
 }
