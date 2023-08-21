@@ -147,9 +147,16 @@ void automaticFishTankWaterIn()
 
   if (phValue >8 || phValue <6) {
     if (25 <waterLevel <78) {
-    waterPumpInOn();
-  }else{
-    waterPumpInOff();
-  }
-  
+      waterPumpOutOn();
+      }
+    else if(waterLevel <25){
+      waterPumpOutOff();
+      }
+    else if (25 >waterLevel <78) {
+      waterPumpInOn();
+      }
+    else if(waterLevel>=78){
+      waterPumpInOff();
+      }
+}
 }
