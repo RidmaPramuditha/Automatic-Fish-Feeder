@@ -26,10 +26,6 @@ void setup() {
   sensors.begin();
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  pinMode(motorPinA, OUTPUT);
-  pinMode(motorPinB, OUTPUT);
-  pinMode(motorPinC, OUTPUT);
-  pinMode(motorPinD, OUTPUT);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
