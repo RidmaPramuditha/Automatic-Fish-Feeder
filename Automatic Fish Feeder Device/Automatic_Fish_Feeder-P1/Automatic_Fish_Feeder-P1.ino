@@ -5,13 +5,9 @@
 #include <DallasTemperature.h>
 #define FIREBASE_HOST "automaticfishfeeder-7941e-default-rtdb.firebaseio.com" // Firebase host
 #define FIREBASE_AUTH "AQWNYi5n5m2UOLpUsPGjDtMvq7V0chJiRIOv38hq" //Firebase Auth code
-#define WIFI_SSID "Tilan" //Enter your wifi Name
-#define WIFI_PASSWORD "Tilan@123" // Enter your password
+#define WIFI_SSID "MTN-MobileWiFi-E5573" //Enter your wifi Name
+#define WIFI_PASSWORD "QFBB1YHH" // Enter your password
 #define ONE_WIRE_BUS 2
-#define motorPinA  16
-#define motorPinB  5
-#define motorPinC  0
-#define motorPinD  14
 int fireStatus = 0;
 int waterIn=0;
 int waterOut=0;
@@ -51,8 +47,6 @@ void loop() {
   fishFeeding();
   temperature();
   waterLevel();
-  manualFishTankWaterIn();
-  manualFishTankWaterOut();
   
 }
 
@@ -94,64 +88,4 @@ void fishFeeding()
   else {
     servo.detach();
   }
-}
-
-void manualFishTankWaterIn()
-{
-  waterIn = Firebase.getInt("WaterIn/15267/triggerValue");
-
-  if (waterIn == 1) {
-    waterPumpInOn();
-  }else{
-    waterPumpInOff();
-  }
-  
-}
-
-void manualFishTankWaterOut()
-{
-  waterOut = Firebase.getInt("WaterOut/15267/triggerValue");
-
-  if (waterOut == 1) {
-    waterPumpOutOn();
-  }else{
-    waterPumpOutOff();
-  }
-  
-}
-
-void waterPumpOutOn()
-{
-  if (distance >= 3)
-  digitalWrite(motorPinA, HIGH);
-  digitalWrite(motorPinB, LOW);
-  digitalWrite(motorPinC, LOW);
-  digitalWrite(motorPinD, LOW);
-}
-
-void waterPumpOutOff()
-{
-  if (distance >= 14)
-  digitalWrite(motorPinA, LOW);
-  digitalWrite(motorPinB, LOW);
-  digitalWrite(motorPinC, LOW);
-  digitalWrite(motorPinD, LOW);
-}
-
-void waterPumpInOn()
-{
-  if (distance >= 14 && distance >= 3)
-  digitalWrite(motorPinA, LOW);
-  digitalWrite(motorPinB, LOW);
-  digitalWrite(motorPinC, HIGH);
-  digitalWrite(motorPinD, LOW);
-}
-
-void waterPumpInOff()
-{
-  if (distance <= 3)
-  digitalWrite(motorPinA, LOW);
-  digitalWrite(motorPinB, LOW);
-  digitalWrite(motorPinC, LOW);
-  digitalWrite(motorPinD, LOW);
 }
