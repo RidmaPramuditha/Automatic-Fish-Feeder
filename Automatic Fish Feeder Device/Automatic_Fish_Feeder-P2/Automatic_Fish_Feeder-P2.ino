@@ -10,10 +10,12 @@
 #define motorPinD  14
 int waterIn=0;
 int waterOut=0;
+int waterLevel=0;
 const int analogInPin = A0;
 int sensorValue = 0;
 unsigned long int avgValue;
 float b;
+float phValue=0;
 int buf[10], temp = 0;
 
 void setup() {
@@ -136,4 +138,18 @@ void phSensorFirebase()
 {
   phSensorRead();
   Firebase.setFloat("SensorData/15267/phValue", phValue);
+}
+
+void automaticFishTankWaterIn()
+{
+  waterLevel = Firebase.getInt("SensorData/15267/waterLevel");
+  phSensorRead();
+
+  if (phValue >8 || phValue <6) {
+    if (25 <waterLevel <78) {
+    waterPumpInOn();
+  }else{
+    waterPumpInOff();
+  }
+  
 }
