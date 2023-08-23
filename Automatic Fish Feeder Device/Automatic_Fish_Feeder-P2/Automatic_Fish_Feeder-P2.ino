@@ -2,8 +2,8 @@
 #include <FirebaseArduino.h>
 #define FIREBASE_HOST "automaticfishfeeder-7941e-default-rtdb.firebaseio.com" // Firebase host
 #define FIREBASE_AUTH "AQWNYi5n5m2UOLpUsPGjDtMvq7V0chJiRIOv38hq" //Firebase Auth code
-#define WIFI_SSID "MTN-MobileWiFi-E5573" //Enter your wifi Name
-#define WIFI_PASSWORD "QFBB1YHH" // Enter your password
+#define WIFI_SSID "Tilan" //Enter your wifi Name
+#define WIFI_PASSWORD "Tilan@123" // Enter your password
 #define motorPinA  16
 #define motorPinB  5
 #define motorPinC  0

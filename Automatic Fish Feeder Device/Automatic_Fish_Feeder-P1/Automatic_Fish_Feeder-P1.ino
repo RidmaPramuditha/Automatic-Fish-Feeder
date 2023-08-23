@@ -5,12 +5,10 @@
 #include <DallasTemperature.h>
 #define FIREBASE_HOST "automaticfishfeeder-7941e-default-rtdb.firebaseio.com" // Firebase host
 #define FIREBASE_AUTH "AQWNYi5n5m2UOLpUsPGjDtMvq7V0chJiRIOv38hq" //Firebase Auth code
-#define WIFI_SSID "MTN-MobileWiFi-E5573" //Enter your wifi Name
-#define WIFI_PASSWORD "QFBB1YHH" // Enter your password
+#define WIFI_SSID "Tilan" //Enter your wifi Name
+#define WIFI_PASSWORD "Tilan@123" // Enter your password
 #define ONE_WIRE_BUS 2
 int fireStatus = 0;
-int waterIn=0;
-int waterOut=0;
 int temp = 0;
 #define trigPin 12
 #define echoPin 13
