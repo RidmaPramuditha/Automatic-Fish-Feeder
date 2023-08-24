@@ -124,20 +124,13 @@ void phSensorRead()
     avgValue += buf[i];
 
   float pHVol = (float)avgValue * 5.0 / 1024 / 4.3;
-  float phValue = -5.70 * pHVol + 30.20;
+  float phValue = -5.70 * pHVol + 27.8;
   float phValue = 14.2 + phValue;
-  //float phValue = -3.0 * pHVol+17.5;
   Serial.print("sensor = ");
   Serial.println(phValue);
   delay(900);
-  //Firebase.setFloat("SensorData/15267/phValue", phValue);
-  
-}
-
-void phSensorFirebase()
-{
-  phSensorRead();
   Firebase.setFloat("SensorData/15267/phValue", phValue);
+  
 }
 
 void automaticFishTankWaterIn()
@@ -147,7 +140,7 @@ void automaticFishTankWaterIn()
   Serial.println(waterLevel);
   Serial.println(phValues);
   
-  if (phValues >8 || phValues <6) {
+  if (phValues >9.00 || phValues <4.00) {
     if (32 <waterLevel <80) {
       waterPumpOutOn();
       }
