@@ -6,8 +6,8 @@
 #define WIFI_PASSWORD "Tilan@123" // Enter your password
 #define motorPinA  16
 #define motorPinB  5
-#define motorPinC  0
-#define motorPinD  14
+#define motorPinC  13
+#define motorPinD  15
 int waterIn=0;
 int waterOut=0;
 int waterLevel=0;
@@ -127,7 +127,7 @@ void phSensorRead()
 
   float pHVol = (float)avgValue * 5.0 / 1024 / 4.3;
   float phValue = -5.70 * pHVol + 27.8;
-  float phValue = 14.2 + phValue;
+  phValue = 14.2 + phValue;
   Serial.print("sensor = ");
   Serial.println(phValue);
   delay(900);
