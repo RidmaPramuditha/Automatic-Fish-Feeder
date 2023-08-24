@@ -143,17 +143,19 @@ void automaticFishTankWaterIn()
   Serial.println(phValues);
   
   if (phValues >9.00 || phValues <4.00) {
-    if (32 <waterLevel <80) {
+    else if (32 <waterLevel <80) {
       waterPumpOutOn();
-      }
-    else if(waterLevel <25){
+      if(waterLevel <25){
       waterPumpOutOff();
-      }
-    else if (32 >waterLevel <80) {
+      if (32 >waterLevel <80) {
       waterPumpInOn();
-      }
-    else if(waterLevel>=80){
+      if(waterLevel>=80){
       waterPumpInOff();
       }
+      }
+      }
+      
+      }
+     
 }
 }
