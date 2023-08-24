@@ -11,11 +11,11 @@
 int waterIn=0;
 int waterOut=0;
 int waterLevel=0;
+float phValues=0;
 const int analogInPin = A0;
 int sensorValue = 0;
 unsigned long int avgValue;
 float b;
-float phValue=0;
 int buf[10], temp = 0;
 
 void setup() {
@@ -125,7 +125,7 @@ void phSensorRead()
 
   float pHVol = (float)avgValue * 5.0 / 1024 / 4.3;
   float phValue = -5.70 * pHVol + 30.20;
-  phValue = 14.2 + phValue;
+  float phValue = 14.2 + phValue;
   //float phValue = -3.0 * pHVol+17.5;
   Serial.print("sensor = ");
   Serial.println(phValue);
@@ -143,9 +143,11 @@ void phSensorFirebase()
 void automaticFishTankWaterIn()
 {
   waterLevel = Firebase.getInt("SensorData/15267/waterLevel");
-  phSensorRead();
-
-  if (phValue >8 || phValue <6) {
+  phValues = Firebase.getFloat("SensorData/15267/phValue");
+  Serial.println(waterLevel);
+  Serial.println(phValues);
+  
+  if (phValues >8 || phValues <6) {
     if (32 <waterLevel <80) {
       waterPumpOutOn();
       }
