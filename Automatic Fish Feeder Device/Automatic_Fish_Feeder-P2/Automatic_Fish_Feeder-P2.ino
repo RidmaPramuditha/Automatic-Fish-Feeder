@@ -11,6 +11,7 @@
 int waterIn=0;
 int waterOut=0;
 int waterLevel=0;
+float phValue = 0;
 float phValues=0;
 const int analogInPin = A0;
 int sensorValue = 0;
@@ -40,7 +41,8 @@ void setup() {
 void loop() {
   manualFishTankWaterIn();
   manualFishTankWaterOut();
-  phSensorFirebase();
+  phSensorRead();
+  automaticFishTankWaterIn();
   
 }
 
